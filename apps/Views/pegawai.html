@@ -1,0 +1,160 @@
+<div class="row">
+    <!--  page header -->
+    <div class="col-lg-12">
+        <h1 class="page-header">Data Pegawai</h1>
+    </div>
+    <!-- end  page header -->
+</div>
+
+<div ng-init="Init()">
+    <button class="btn btn-primary pull-left" title="Tambah Pegawai" data-toggle="modal" data-target="#TambahPegawai">
+        <i class="fa fa-plus fa-2x"></i>
+    </button>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Advanced Tables -->
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Advanced Tables
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>NIP</th>
+                                    <th>Nama Pegawai</th>
+                                    <th>Kontak</th>
+                                    <th>Sex</th>
+                                    <th>Bidang</th>
+                                    <th>Jabatan</th>
+                                    <th>Alamat</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="odd gradeX" ng-repeat="item in DatasPegawai">
+                                    <td>{{item.Nip}}</td>
+                                    <td>{{item.Nama}}</td>
+                                    <td>{{item.Kontak}}</td>
+                                    <td class="center">{{item.Sex}}</td>
+                                    <td class="center">{{item.NamaBidang}}</td>
+                                    <td>{{item.Jabatan}}</td>
+                                    <td>{{item.Alamat}}</td>
+                                    <td>
+                                        <button class="btn btn-info btn-circle pull-left" title="Update Pegawai" data-toggle="modal" data-target="#UpdatePegawai" ng-click="Selected(item)">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-circle pull-right" title="Hapus Pegawai" data-toggle="modal" ng-click="Delete(item)">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <!--End Advanced Tables -->
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="TambahPegawai" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Tambah Pegawai</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="NIK Pegawai" ng-model="DataInputPegawai.Nip">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Nama Pegawai" ng-model="DataInputPegawai.Nama">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Kontak Pegawai" ng-model="DataInputPegawai.Kontak">
+                    </div>
+                    <div class="form-group">
+                        <label>Sex</label>
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="DataInputPegawai.Sex" value="L">L
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="DataInputPegawai.Sex" value="P">P
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-options="item as item.NamaBidang for item in DatasBidang track by item.IdBidang" ng-model="SelectedItemBidang"></select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Jabatan" ng-model="DataInputPegawai.Jabatan">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="3" placeholder="Alamat" ng-model="DataInputPegawai.Alamat"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="Email" placeholder="email@example.com" ng-model="DataInputPegawai.Email">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="InsertPegawai()" data-dismiss="modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="UpdatePegawai" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Update Pegawai</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="NIK Pegawai" ng-model="SelectedItemPegawai.Nip">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Nama Pegawai" ng-model="SelectedItemPegawai.Nama">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Kontak Pegawai" ng-model="SelectedItemPegawai.Kontak">
+                    </div>
+                    <div class="form-group">
+                        <label>Sex</label>
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="SelectedItemPegawai.Sex" value="L">L
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" ng-model="SelectedItemPegawai.Sex" value="P">P
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-options="item as item.NamaBidang for item in DatasBidang track by item.IdBidang" ng-model="SelectedItemBidang"></select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Jabatan" ng-model="SelectedItemPegawai.Jabatan">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" rows="3" placeholder="Alamat" ng-model="SelectedItemPegawai.Alamat"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="UpdateDataPegawai()" data-dismiss="modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

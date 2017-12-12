@@ -1,0 +1,108 @@
+<div class="row">
+    <!--  page header -->
+    <div class="col-lg-12">
+        <h1 class="page-header">Bidang</h1>
+    </div>
+    <!-- end  page header -->
+</div>
+
+<div ng-init="Init()">
+    <button class="btn btn-primary pull-left" title="Tambah Bidang" data-toggle="modal" data-target="#TambahBidang">
+        <i class="fa fa-plus fa-2x"></i>
+    </button>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <!-- Advanced Tables -->
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Advanced Tables
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Bidang</th>
+                                    <th>Kepala Bidang</th>
+                                    <th width="85px">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="odd gradeX" ng-repeat="item in DatasBidang">
+                                    <td scope="row">{{$index+1}}</td>
+                                    <td>{{item.NamaBidang}}</td>
+                                    <td>{{item.KepalaBagian}}</td>
+                                    <td>
+                                        <button class="btn btn-info btn-circle pull-left" title="Update Bidang" data-toggle="modal" data-target="#UpdateBidang" ng-click="Selected(item)">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-circle pull-right" title="Hapus Bidang" data-toggle="modal" ng-click="Delete(item)">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+            <!--End Advanced Tables -->
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="TambahBidang" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Tambah Bidang</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Nama Bidang" ng-model="DataInputBidang.NamaBidang">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Kepala Bagian" ng-model="DataInputBidang.KepalaBagian">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="InsertBidang()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="UpdateBidang" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Update Bidang</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Nama Bidang" ng-model="DataSelected.NamaBidang">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Kepala Bagian" ng-model="DataSelected.KepalaBagian">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="UpdateDataBidang()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
