@@ -1,64 +1,77 @@
 angular.module("app", ["ngRoute", "Ctrl"])
-    .config(function($routeProvider) {
-        $routeProvider
-            .when("/Main", {
-                templateUrl: "apps/Views/main.html",
-                controller: "MainController"
-            })
-            .when("/Pegawai", {
-                templateUrl: "apps/Views/pegawai.html",
-                controller: "pegawaiController"
-            })
 
-        .when("/Bidang", {
-            templateUrl: "apps/Views/Bidang.html",
-            controller: "BidangController"
+.config(function($routeProvider, $http) {
+    $routeProvider
+        .when("/", {
+            templateUrl: "apps/Views/main.html",
+            controller: "MainController"
+        })
+        .when("/Main", {
+            templateUrl: "apps/Views/main.html",
+            controller: "MainController"
+        })
+        .when("/Pegawai", {
+            templateUrl: "apps/Views/pegawai.html",
+            controller: "pegawaiController"
         })
 
-        .when("/Logout", {
-            templateUrl: "apps/Views/Bidang.html",
-            controller: "LogoutController"
-        })
+    .when("/Bidang", {
+        templateUrl: "apps/Views/Bidang.html",
+        controller: "BidangController"
+    })
 
-        .when("/login", {
-            templateUrl: "apps/Views/login.html",
-            controller: "LoginController"
-        })
+    .when("/Logout", {
+        templateUrl: "apps/Views/Bidang.html",
+        controller: "LogoutController"
+    })
 
-        .when("/login", {
-            templateUrl: "apps/Views/login.html",
-            controller: "LoginController"
-        })
+    .when("/login", {
+        templateUrl: "apps/Views/login.html",
+        controller: "LoginController"
+    })
 
-        .when("/DaftarAbsen", {
-            templateUrl: "apps/Views/daftarabsen.html",
-            controller: "DaftarAbsenController"
-        })
+    .when("/login", {
+        templateUrl: "apps/Views/login.html",
+        controller: "LoginController"
+    })
 
-        .when("/ViewAbsen", {
-            templateUrl: "apps/Views/ViewAbsen.html",
-            controller: "ViewAbsenController"
-        })
+    .when("/DaftarAbsen", {
+        templateUrl: "apps/Views/daftarabsen.html",
+        controller: "DaftarAbsenController"
+    })
 
-        .when("/HariLibur", {
-            templateUrl: "apps/Views/HariLibur.html",
-            controller: "HariLiburController"
-        })
+    .when("/ViewAbsen", {
+        templateUrl: "apps/Views/ViewAbsen.html",
+        controller: "ViewAbsenController"
+    })
 
-        .when("/Perangkat", {
-            templateUrl: "apps/Views/Perangkat.html",
-            controller: "PerangkatController"
-        })
+    .when("/HariLibur", {
+        templateUrl: "apps/Views/HariLibur.html",
+        controller: "HariLiburController"
+    })
 
-        .when("/Prices", {
-            templateUrl: "apps/Views/Prices.html",
-            controller: "PricesController"
-        })
+    .when("/Perangkat", {
+        templateUrl: "apps/Views/Perangkat.html",
+        controller: "PerangkatController"
+    })
 
-        .when("/Collies", {
-            templateUrl: "apps/Views/Collies.html",
-            controller: "ColliesController"
-        })
+    .when("/Prices", {
+        templateUrl: "apps/Views/Prices.html",
+        controller: "PricesController"
+    })
 
-        .otherwise({ redirectTo: '/' });
-    });
+    .when("/Collies", {
+        templateUrl: "apps/Views/Collies.html",
+        controller: "ColliesController"
+    })
+
+    .otherwise({ redirectTo: '/' });
+})
+
+.factory("SessionService", function($http, $rootScope) {
+    var service = {};
+    var Urlauth = "api/datas/auth.php";
+
+
+    return service;
+});

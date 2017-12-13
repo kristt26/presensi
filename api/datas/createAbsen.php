@@ -46,18 +46,20 @@ if($num>0)
         // this will make $row['name'] to
         // just $name only
         extract($row);
- 
+        $absen->Nip=$Nip; 
  
     }
-    $absen->Nip=$Nip;
+    //$absen->Nip=$Nip;
 
-    $cekAbsen=$absen->read();
+    $cekAbsen=$absen->readOne();
     $numabsen=$cekAbsen->rowCount();
     while ($rowAbsen = $cekAbsen->fetch(PDO::FETCH_ASSOC)){
         // extract row
         // this will make $row['name'] to
         // just $name only
         extract($rowAbsen); 
+        $absen->JamAbsen=$JamDatang;
+        $absen->JamAbsenPulang=$JamPulang;
  
     }
 
@@ -74,21 +76,32 @@ if($num>0)
         }else
         {
             echo '{';
-                echo '"message": "'.$Nama.' Anda Sudah Absen Datang jam '.$absen->JamDatang.'"';
+                echo '"message": "'.$Nama.' Anda Sudah Absen Datang Sebelumnya jam '.$absen->JamAbsen.'"';
             echo '}';
         }
-    }elseif($JamPulang=="00:00:00" && $absen->JamPulang>"12:00:00")
+    }elseif($absen->JamDatang>="12:00:00")
     {
-        if($absen->update())
+        if($numabsen>0)
+        {
+            if($JamPulang=="00:00:00")
+            {
+                if($absen->update())
+                {
+                    echo '{';
+                        echo '"message": "'.$Nama.' Anda Sukses Absen Pulang Jam '.$absen->JamPulang.'"';
+                    echo '}';
+                }
+            }
+            else
+            {
+                echo '{';
+                    echo '"message": "'.$Nama.' Anda Sudah Melakukan Absen Pulang sebelumnya Jam '.$absen->JamAbsenPulang.'"';
+                echo '}';
+            }
+        }else
         {
             echo '{';
-                echo '"message": "'.$Nama.' Anda Sukses Absen Pulang Jam '.$absen->JamPulang.'"';
-            echo '}';
-        }
-        else
-        {
-            echo '{';
-                echo '"message": "'.$Nama.' Anda Sudah Melakukan Absen Pulang sebelumnya Jam '.$num.'"';
+                echo '"message": "'.$Nama.' Anda Tidak Diperkenankan Absen Pulang karena anda tidak absen pagi"';
             echo '}';
         }
     }

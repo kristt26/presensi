@@ -15,6 +15,8 @@ class Absen{
     public $Password;
     public $DariTanggal;
     public $SampaiTanggal;
+    public $JamAbsen;
+    public $JamAbsenPulang;
  
     // constructor with $db as database connection
     public function __construct($db){
@@ -47,6 +49,26 @@ class Absen{
         session_destroy();
         return true;
     }
+
+
+
+
+    function readOne(){
+        
+           // select all query
+           $query = "SELECT * from " . $this->table_name . " where Nip=? and TglAbsen=?";
+        
+           // prepare query statement
+           $stmt = $this->conn->prepare($query);
+           $stmt->bindParam(1, $this->Nip);
+           $stmt->bindParam(2, $this->TglAbsen);
+        
+           // execute query
+           $stmt->execute();
+        
+           return $stmt;
+    }
+
 
     // read products
     function read(){

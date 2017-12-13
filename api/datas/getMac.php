@@ -13,9 +13,10 @@ $db = $database->getConnection();
  
 // initialize object
 $getmac = new GetMac($db);
+$getmac->user_agent=$_SERVER['HTTP_USER_AGENT'];
  
 // query products
 $stmt = $getmac->readMac();
-echo json_encode(array("MacAdress" => $stmt));
+echo json_encode(array("MacAdress" => $stmt, "OS"=>$getmac->getOS()));
 
 ?>
