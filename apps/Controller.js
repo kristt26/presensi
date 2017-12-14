@@ -1,11 +1,11 @@
 angular.module("Ctrl", [])
-    .controller("MainController", function($scope, $http, $rootScope, SessionService) {
-        $rootScope.Session = {};
-        $scope.Init = function() {
+
+.controller("MainController", function($scope, $http, SessionService) {
+    $scope.Init = function() {
 
 
-        }
-    })
+    }
+})
 
 
 .controller("LogoutController", function($scope, $http) {
@@ -149,27 +149,16 @@ angular.module("Ctrl", [])
 
 })
 
-.controller("BidangController", function($scope, $http, $rootScope) {
+.controller("BidangController", function($scope, $http, $rootScope, SessionService) {
     $scope.DatasBidang = [];
+    $rootScope.Session = {};
     $scope.DataInputBidang = {};
     $scope.DataSelected = {};
     $scope.InputUser = {};
 
     $scope.Init = function() {
         //Auth
-        var Urlauth = "api/datas/auth.php";
-        $http({
-                method: "get",
-                url: Urlauth,
-            })
-            .then(function(response) {
-                if (response.data.Session == false) {
-                    window.location.href = 'login.html';
-                } else
-                    $rootScope.Session = response.data.Session;
-            }, function(error) {
-                alert(error.message);
-            })
+
 
 
         var UrlBidang = "api/datas/readBidang.php";
@@ -237,8 +226,9 @@ angular.module("Ctrl", [])
 
 })
 
-.controller("PerangkatController", function($scope, $http, $rootScope) {
+.controller("PerangkatController", function($scope, $http, $rootScope, SessionService) {
     $scope.DatasPerangkat = [];
+    $rootScope.Session = {};
     $scope.DatasPegawai = [];
     $scope.DataInputPerangkat = {};
     $scope.SelectedItemPegawai = {};
@@ -363,8 +353,9 @@ angular.module("Ctrl", [])
 })
 
 
-.controller("DaftarAbsenController", function($scope, $http, $rootScope) {
+.controller("DaftarAbsenController", function($scope, $http, $rootScope, SessionService) {
     $scope.DataPrices = [];
+    $rootScope.Session = {};
     $scope.Init = function() {
         var UrlPrices = "api/Prices.php?action=GetPrices";
         $http({
@@ -380,25 +371,11 @@ angular.module("Ctrl", [])
 
 })
 
-.controller("ViewAbsenController", function($scope, $http, $rootScope) {
+.controller("ViewAbsenController", function($scope, $http, $rootScope, SessionService) {
     $rootScope.Session = {};
     $scope.DatasAbsen = [];
     $scope.DataTanggal = {};
     $scope.Init = function() {
-        //Auth
-        var Urlauth = "api/datas/auth.php";
-        $http({
-                method: "get",
-                url: Urlauth,
-            })
-            .then(function(response) {
-                if (response.data.Session == false) {
-                    window.location.href = 'login.html';
-                } else
-                    $rootScope.Session = response.data.Session;
-            }, function(error) {
-                alert(error.message);
-            })
 
     }
     $scope.Cari = function() {
@@ -418,9 +395,9 @@ angular.module("Ctrl", [])
 
 })
 
-.controller("HariLiburController", function($scope, $http, $rootScope) {
+.controller("HariLiburController", function($scope, $http, $rootScope, SessionService) {
     $scope.DatasHariLibur = [];
-    $rootScope.Sessio = {};
+    $rootScope.Session = {};
     $scope.DataInputHariLibur = {};
     $scope.Init = function() {
         //Auth

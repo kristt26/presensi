@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+
+    <title>Cetak Nota</title>
+
+    <link rel='stylesheet' type='text/css' href='css/style.css' />
+    <link rel='stylesheet' type='text/css' href='css/print.css' media="print" />
+    <script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
+    <script type='text/javascript' src='js/example.js'></script>
+    <script src="../../assets/scripts/angular.min.js"></script>
+    <script src="../../assets/scripts/angular-route.js"></script>
+
+</head>
+
+<body ng-app="Ctrl" ng-controller="NotaController" ng-init="Init()">
+    <center>
+        <h3>PEMERINTAH KOTA JAYAPURA</h3>
+        <H1>BADAN PENDAPATAN DAERAH</H1>
+        <H5>Jalan Kabupaten III No. 2 Telp. 0967 537380 Jayapura-Papua</H5>
+    </center>
+    <H5>UNIT KERJA: BADAN PENDAPATAN DAERAH KOTA JAYAPURA</H5>
+    <table width=100%>
+        <tr>
+            <th rowspan="2" width="40px" style="font-size: 11px;"> NO </th>
+            <th rowspan="2" style="font-size: 11px;"> NIP </th>
+            <th rowspan="2" style="font-size: 11px;"> NAMA PEGAWAI </th>
+            <th rowspan="2" style="font-size: 11px;"> GOL </th>
+            <th rowspan="2" style="font-size: 11px;"> JABATAN </th>
+            <th rowspan="2" width="50px" style="font-size: 11px;"> JUMLAH HARI KERJA </th>
+            <th rowspan="2" width="50px" style="font-size: 11px;"> JUMLAH HADIR </th>
+            <th colspan="5" width="100px" style="font-size: 11px;"> KETIDAK HADIRAN </th>
+            <th rowspan="2" width="50px" style="font-size: 11px;"> JUMLAH TIDAK HADIR </th>
+            <th rowspan="2" style="font-size: 11px;">RATIO</th>
+        </tr>
+        <tr>
+            <th style="font-size: 11px">A</th>
+            <th style="font-size: 11px;">S</th>
+            <th style="font-size: 11px;">I</th>
+            <th style="font-size: 11px;">DL</th>
+            <th style="font-size: 11px;">CT</th>
+        </tr>
+        <tr ng-repeat="item in DataRekap">
+
+        </tr>
+    </table>
+
+
+    <script>
+        angular.module("Ctrl", [])
+            .controller("NotaController", function($scope, $http) {
+                $scope.DataNota = {};
+                $scope.Init = function() {
+                    /*
+                    var GetNota = "../../api/datas/readDataNota.php";
+                    $http({
+                            method: "get",
+                            url: GetNota
+                        })
+                        .then(function(response) {
+                            $scope.DataNota = response.data;
+                        }, function(error) {
+                            alert(error.message);
+                        })
+                        */
+                }
+
+
+            });
+    </script>
+
+
+</body>
+
+</html>

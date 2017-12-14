@@ -1,11 +1,7 @@
-angular.module("app", ["ngRoute", "Ctrl"])
+var app = angular.module("app", ["ngRoute", "Ctrl"]);
+app.config(function($routeProvider) {  
+    $routeProvider   
 
-.config(function($routeProvider, $http) {
-    $routeProvider
-        .when("/", {
-            templateUrl: "apps/Views/main.html",
-            controller: "MainController"
-        })
         .when("/Main", {
             templateUrl: "apps/Views/main.html",
             controller: "MainController"
@@ -65,13 +61,30 @@ angular.module("app", ["ngRoute", "Ctrl"])
         controller: "ColliesController"
     })
 
-    .otherwise({ redirectTo: '/' });
+    .otherwise({ redirectTo: '/Main' })
+
 })
+
 
 .factory("SessionService", function($http, $rootScope) {
     var service = {};
+    $rootScope.Session = {};
     var Urlauth = "api/datas/auth.php";
+    $http({
+            method: "get",
+            url: Urlauth,
+        })
+        .then(function(response) {
+            if (response.data.Session == false) {
+                window.location.href = 'login.html';
+            } else
+                $rootScope.Session = response.data.Session;
+        }, function(error) {
+            alert(error.message);
+        })
 
 
     return service;
-});
+})
+
+;
