@@ -14,6 +14,7 @@ class Pegawai{
     public $IdBidang;
     public $NamaBidang;
     public $Jabatan;
+    public $Pangkat;
     public $Email;
     public $Password;
  
@@ -41,7 +42,7 @@ class Pegawai{
     function read(){
     
        // select all query
-       $query = "SELECT p.Nip, p.Nama, p.Alamat, p.Kontak, p.Sex, b.IdBidang,b.NamaBidang, p.Jabatan, p.Email from pegawai p, bidang b where p.IdBidang=b.IdBidang";
+       $query = "SELECT p.Nip, p.Nama, p.Alamat, p.Kontak, p.Sex, b.IdBidang,b.NamaBidang, p.Jabatan, p.Pangkat, p.Email from pegawai p, bidang b where p.IdBidang=b.IdBidang";
     
        // prepare query statement
        $stmt = $this->conn->prepare($query);
@@ -52,6 +53,25 @@ class Pegawai{
        return $stmt;
     }
 
+
+    function readOne(){
+        
+           // select all query
+           $query = "SELECT Nip, Nama, Alamat, Kontak, Sex, Jabatan, IdBidang, Pangkat, Email from pegawai where Nip=?";
+        
+           // prepare query statement
+           $stmt = $this->conn->prepare($query);
+
+           $this->Nip=htmlspecialchars(strip_tags($this->Nip));
+
+           $stmt->bindParam(1, $this->Nip);
+        
+           // execute query
+           $stmt->execute();
+        
+           return $stmt;
+        }
+
     
 
    // create product
@@ -61,7 +81,7 @@ class Pegawai{
        $query = "INSERT INTO
                    " . $this->table_name . "
                SET
-                   Nip=:Nip, Nama=:Nama, Alamat=:Alamat, Kontak=:Kontak, Sex=:Sex, IdBidang=:IdBidang, Jabatan=:Jabatan, Email=:Email, Password=:Password";
+                   Nip=:Nip, Nama=:Nama, Alamat=:Alamat, Kontak=:Kontak, Sex=:Sex, IdBidang=:IdBidang, Jabatan=:Jabatan, Pangkat=:Pangkat Email=:Email, Password=:Password";
     
        // prepare query
        $stmt = $this->conn->prepare($query);
@@ -74,6 +94,7 @@ class Pegawai{
        $this->Sex=htmlspecialchars(strip_tags($this->Sex));
        $this->IdBidang=htmlspecialchars(strip_tags($this->IdBidang));
        $this->Jabatan=htmlspecialchars(strip_tags($this->Jabatan));
+       $this->Pangkat=htmlspecialchars(strip_tags($this->Pangkat));
        $this->Email=htmlspecialchars(strip_tags($this->Email));
        $this->Password=htmlspecialchars(strip_tags($this->Password));
     
@@ -85,6 +106,7 @@ class Pegawai{
        $stmt->bindParam(":Sex", $this->Sex);
        $stmt->bindParam(":IdBidang", $this->IdBidang);
        $stmt->bindParam(":Jabatan", $this->Jabatan);
+       $stmt->bindParam(":Pangkat", $this->Pangkat);
        $stmt->bindParam(":Email", $this->Email);
        $stmt->bindParam(":Password", $this->Password);
     

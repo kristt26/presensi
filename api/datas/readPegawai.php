@@ -42,7 +42,8 @@ if($num>0){
             "Sex" => $Sex,
             "IdBidang" => $IdBidang,
             "NamaBidang"=>$NamaBidang,
-            "Jabatan" => $Jabatan
+            "Jabatan" => $Jabatan,
+            "Pangkat" => $Pangkat
         );
  
         array_push($products_arr["records"], $product_item);

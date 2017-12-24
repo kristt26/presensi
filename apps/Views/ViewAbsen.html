@@ -20,10 +20,15 @@
                 <input class="form-control" type="date" ng-model="DataTanggal.SampaiTanggal">
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1">
             <button class="btn btn-primary pull-left" title="Cari Data Absen" ng-click="Cari()">
                         <i class="fa fa-search fa-2x"></i>
                     </button>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-primary pull-left" title="Cari Data Absen" ng-click="Cetak()">
+                            <i class="fa fa-print fa-2x"></i>
+                        </button>
         </div>
 
 
@@ -32,38 +37,22 @@
 
 
 <div class="row">
-    <div class="col-lg-12">
-        <!--Collapsible Accordion Panel Group   -->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                Bidang
-            </div>
-            <div class="panel-body">
-                <div ng-repeat="ItemBidang in DatasAbsen">
-                    <div class="col-lg-12">
-                        <div class="form-group col-sm-2">
-                            <label>{{ItemBidang.NamaBidang}}</label>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <!--Collapsible Accordion Panel Group   -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Pegawai
-                            </div>
-                            <div class="panel-body">
-                                <div ng-repeat="ItemPegawai in ItemBidang.Pegawai">
-                                    <div class="col-lg-12">
-                                        <div class="form-group col-sm-4">
-                                            <label>{{ItemPegawai.Nama}}</label>
+    <div class="col-md-12">
+        <div class="panel-group" id="Bidang">
+            <div class="panel panel-default" ng-repeat="ItemBidang in DatasAbsen">
+                <div class="panel-heading">
+                    <a class="panel-title" data-toggle="collapse" data-parent="#Bidang" href="!#{{ItemBidang.NamaBidang}}">{{ItemBidang.NamaBidang}}</a>
+                </div>
+                <div id="{{ItemBidang.NamaBidang}}" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel-group" id="{{ItemBidang.IdBidang}}">
+                                    <div class="panel panel-default" ng-repeat="ItemPegawai in ItemBidang.Pegawai">
+                                        <div class="panel-heading">
+                                            <a class="panel-title" data-toggle="collapse" data-parent="#{{ItemBidang.IdBidang}}" href="!#{{ItemPegawai.Nip}}">{{ItemPegawai.Nama}}</a>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <!--Collapsible Accordion Panel Group   -->
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                Absen
-                                            </div>
+                                        <div id="{{ItemPegawai.Nip}}" class="panel-collapse collapse">
                                             <div class="panel-body">
                                                 <div class="col-lg-12">
                                                     <div class="table-responsive">
@@ -75,55 +64,52 @@
                                                                     <th>Jam Datang</th>
                                                                     <th>Jam Pulang</th>
                                                                     <th>Keterangan</th>
-                                                                    <th width="85px">Action</th>
 
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr class="odd gradeX" ng-repeat="itemAbsen in ItemPegawai.Absen">
-                                                                    <td scope="row">{{$index+1}}</td>
-                                                                    <td>{{itemAbsen.TglAbsen}}</td>
-                                                                    <td>{{itemAbsen.JamDatang}}</td>
-                                                                    <td>{{itemAbsen.JamPulang}}</td>
-                                                                    <td>{{itemAbsen.Keterangan}}</td>
-                                                                    <td>
-                                                                        <button class="btn btn-info btn-circle pull-left" title="Update Bidang" data-toggle="modal" data-target="#UpdateBidang" ng-click="Selected(item)">
-                                                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                                                </button>
-                                                                        <button class="btn btn-danger btn-circle pull-right" title="Hapus Bidang" data-toggle="modal" ng-click="Delete(item)">
-                                                                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                                                                </button>
-                                                                    </td>
+                                                                <tr class="odd gradeX" ng-repeat="itemAbsen in ItemPegawai.Tanggal">
+                                                                    <td ng-show="itemAbsen.Keterangan=='Hadir'">{{$index+1}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan!='Hadir'">{{$index+1}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan!='Hadir'">{{itemAbsen.Tanggal}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan=='Hadir'">{{itemAbsen.Tanggal}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan=='Hadir'" style="background-color:rgba(0, 255, 0, 0.925);">{{itemAbsen.JamDatang}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan=='Hadir'" style="background-color:rgba(0, 255, 0, 0.925);">{{itemAbsen.JamPulang}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan=='Izin'" colspan="3" style="background-color:rgba(255, 0, 64, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan=='Alpha'" colspan="3" style="background-color:rgba(255, 153, 0, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan=='Cuti'" colspan="3" style="background-color:rgba(0, 255, 242, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan=='Hari Sabtu'" colspan="3" style="background-color:red;">{{itemAbsen.Keterangan}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan=='Sakit'" colspan="3" style="background-color:rgba(238, 255, 0, 0.925);">{{itemAbsen.Keterangan}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan=='DL'" colspan="3" style="background-color:red;text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan=='Hadir'" style="background-color:rgba(0, 255, 0, 0.925);">{{itemAbsen.Keterangan}}</td>
+
+                                                                    <td ng-show="itemAbsen.Keterangan=='Hari Minggu'" colspan="3" style="background-color:red;text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                                                    <td ng-show="itemAbsen.Keterangan!='Hadir' && itemAbsen.Keterangan!='Hari Minggu' && itemAbsen.Keterangan!='DL' && itemAbsen.Keterangan!='Sakit' && itemAbsen.Keterangan!='Hari Sabtu' && itemAbsen.Keterangan!='Cuti' && itemAbsen.Keterangan!='Alpha' && itemAbsen.Keterangan!='Izin'"
+                                                                        colspan="3" style="background-color:red;text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+
                                                                 </tr>
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                 </div>
-
+                                                <div class="col-lg-12">
+                                                    <button class="btn btn-primary pull-left" title="Cari Data Absen" ng-click="CetakPegawai(ItemPegawai)">
+                                                                <i class="fa fa-print fa-2x"></i>
+                                                            </button>
+                                                </div>
                                             </div>
-
                                         </div>
                                     </div>
-                                    <!--End Collapsible Accordion Panel Group   -->
                                 </div>
-
                             </div>
-
                         </div>
                     </div>
-                    <!--End Collapsible Accordion Panel Group   -->
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>
-<!--End Collapsible Accordion Panel Group   -->
-</div>
-</div>
 
-</div>
 
 <div class="modal fade" id="TambahPerangkat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">

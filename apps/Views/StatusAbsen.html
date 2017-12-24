@@ -1,15 +1,15 @@
 <div class="row">
     <!--  page header -->
     <div class="col-lg-12">
-        <h1 class="page-header">Hari Libur</h1>
+        <h1 class="page-header">Status Absen</h1>
     </div>
     <!-- end  page header -->
 </div>
 
 <div ng-init="Init()">
-    <button class="btn btn-primary pull-left" title="Tambah Bidang" data-toggle="modal" data-target="#TambahHariLibur">
-        <i class="fa fa-plus fa-2x"></i>
-    </button>
+    <button class="btn btn-primary pull-left" title="Tambah Status Absen" data-toggle="modal" data-target="#TambahStatusAbsen">
+            <i class="fa fa-plus fa-2x"></i>
+        </button>
 
     <div class="row">
         <div class="col-lg-12">
@@ -17,7 +17,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Daftar Hari Libur
+                    Daftar Status Absen
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -25,26 +25,32 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Hari Libur</th>
-                                    <th>Dari Tanggal</th>
-                                    <th>Sampai Tanggal</th>
+                                    <th>Nip</th>
+                                    <th>Jenis</th>
+                                    <th>Tanggal Pengajuan</th>
+                                    <th>Tanggal Mulai</th>
+                                    <th>Tanggal Selesai</th>
+                                    <th>Keterangan</th>
                                     <th width="85px">Action</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="odd gradeX" ng-repeat="item in DatasHariLibur">
+                                <tr class="odd gradeX" ng-repeat="item in DatasStatusAbsen">
                                     <td scope="row">{{$index+1}}</td>
+                                    <td>{{item.Nip}}</td>
+                                    <td>{{item.Jenis}}</td>
+                                    <td>{{item.Pengajuan|date:'dd-MM-yyyy'}}</td>
+                                    <td>{{item.TglMulai|date:'dd-MM-yyyy'}}</td>
+                                    <td>{{item.TglSelesai|date:'dd-MM-yyyy'}}</td>
                                     <td>{{item.Keterangan}}</td>
-                                    <td>{{item.DariTgl|date:'dd-MM-yyyy'}}</td>
-                                    <td>{{item.SampaiTgl|date:'dd-MM-yyyy'}}</td>
                                     <td>
-                                        <button class="btn btn-info btn-circle pull-left" title="Update HariLibur" data-toggle="modal" data-target="#UpdateHariLibur" ng-click="Selected(item)">
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-circle pull-right" title="Hapus HariLibur" data-toggle="modal" ng-click="Delete(item)">
-                                            <i class="fa fa-times" aria-hidden="true"></i>
-                                        </button>
+                                        <button class="btn btn-info btn-circle pull-left" title="Update Status Absen" data-toggle="modal" data-target="#UpdateStatusAbsen" ng-click="Selected(item)">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                            </button>
+                                        <button class="btn btn-danger btn-circle pull-right" title="Hapus Status Absen" data-toggle="modal" ng-click="Delete(item)">
+                                                <i class="fa fa-times" aria-hidden="true"></i>
+                                            </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -59,7 +65,7 @@
 
 </div>
 
-<div class="modal fade" id="TambahHariLibur" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="TambahStatusAbsen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -68,28 +74,40 @@
             </div>
             <div class="modal-body">
                 <form role="form">
+                    <label>Pegawai</label>
+                    <div class="form-group">
+                        <select class="form-control" ng-options="item as item.Nama for item in DatasPegawai track by item.Nama" ng-model="SelectedItemPegawai"></select>
+                    </div>
+                    <label>Jenis</label>
+                    <div class="form-group">
+                        <select class="form-control" ng-options="item as item.jenis for item in DataJenis track by item.jenis" ng-model="SelectedJenis"></select>
+                    </div>
+                    <label>Tanggal Pengajuan</label>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="DariTgl" type="date" ng-model="DataInput.Pengajuan">
+                    </div>
                     <label>Dari Tanggal</label>
                     <div class="form-group">
-                        <input class="form-control" placeholder="DariTgl" type="date" ng-model="DataInputHariLibur.DariTgl">
+                        <input class="form-control" placeholder="DariTgl" type="date" ng-model="DataInput.TglMulai">
                     </div>
                     <label>Sampai Tanggal</label>
                     <div class="form-group">
-                        <input class="form-control" placeholder="SampaiTgl" type="date" ng-model="DataInputHariLibur.SampaiTgl">
+                        <input class="form-control" placeholder="SampaiTgl" type="date" ng-model="DataInput.TglSelesai">
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Keterangan" ng-model="DataInputHariLibur.Keterangan">
+                        <input class="form-control" placeholder="Keterangan" ng-model="DataInput.Keterangan">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="InsertHariLibur()">Save changes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="InsertStatusAbsen()">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="UpdateHariLibur" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="UpdateStatusAbsen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

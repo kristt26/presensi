@@ -10,38 +10,44 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include_once '../../api/config/database.php';
  
 // instantiate product object
-include_once '../../api/objects/HariLibur.php';
+include_once '../../api/objects/StatusAbsen.php';
  
 $database = new Database();
 $db = $database->getConnection();
  
-$hariLibur = new HariLibur($db);
+$statusabsen = new StatusAbsen($db);
  
 // get posted data
 $data =json_decode(file_get_contents("php://input"));
  
-$a = new DateTime($data->DariTgl);
+$a = new DateTime($data->Pengajuan);
 $aa=str_replace('-', '/', $a->format('Y-m-d'));
 $aaa = date('Y-m-d',strtotime($aa . "+1 days"));
-$b = new DateTime($data->SampaiTgl);
+$b = new DateTime($data->TglMulai);
 $bb=str_replace('-', '/', $b->format('Y-m-d'));
 $bbb = date('Y-m-d',strtotime($bb . "+1 days"));
+$c = new DateTime($data->TglSelesai);
+$cc=str_replace('-', '/', $c->format('Y-m-d'));
+$ccc = date('Y-m-d',strtotime($cc . "+1 days"));
 // set product property values
-$hariLibur->DariTgl = $aaa;
-$hariLibur->SampaiTgl = $bbb;
-$hariLibur->Keterangan = $data->Keterangan;
+$statusabsen->Nip = $data->Nip;
+$statusabsen->Jenis = $data->Jenis;
+$statusabsen->TglPengajuan = $aaa;
+$statusabsen->TglMulai = $bbb;
+$statusabsen->TglSelesai=$ccc;
+$statusabsen->Keterangan=$data->Keterangan;
  
 // create the product
-if($hariLibur->create()){
+if($statusabsen->create()){
     echo '{';
-        echo '"message": '.$hariLibur->IdHari.'';
+        echo '"message": '.$statusabsen->Id.'';
     echo '}';
 }
  
 // if unable to create the product, tell the user
 else{
     echo '{';
-        echo '"message": "Unable to create product."';
+        echo '"message": "Unable to create StatusAbsen."';
     echo '}';
 }
 

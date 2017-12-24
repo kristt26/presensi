@@ -1,15 +1,15 @@
 var app = angular.module("app", ["ngRoute", "Ctrl"]);
 app.config(function($routeProvider) {  
     $routeProvider   
-
         .when("/Main", {
             templateUrl: "apps/Views/main.html",
             controller: "MainController"
         })
-        .when("/Pegawai", {
-            templateUrl: "apps/Views/pegawai.html",
-            controller: "pegawaiController"
-        })
+
+    .when("/Pegawai", {
+        templateUrl: "apps/Views/pegawai.html",
+        controller: "pegawaiController"
+    })
 
     .when("/Bidang", {
         templateUrl: "apps/Views/Bidang.html",
@@ -51,9 +51,9 @@ app.config(function($routeProvider) {  
         controller: "PerangkatController"
     })
 
-    .when("/Prices", {
-        templateUrl: "apps/Views/Prices.html",
-        controller: "PricesController"
+    .when("/StatusAbsen", {
+        templateUrl: "apps/Views/StatusAbsen.html",
+        controller: "StatusAbsenController"
     })
 
     .when("/Collies", {

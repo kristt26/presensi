@@ -2,8 +2,20 @@ angular.module("Ctrl", [])
 
 .controller("MainController", function($scope, $http, SessionService) {
     $scope.Init = function() {
-
-
+        //Auth
+        var Urlauth = "api/datas/auth.php";
+        $http({
+                method: "get",
+                url: Urlauth,
+            })
+            .then(function(response) {
+                if (response.data.Session == false) {
+                    window.location.href = 'login.html';
+                } else
+                    $rootScope.Session = response.data.Session;
+            }, function(error) {
+                alert(error.message);
+            })
     }
 })
 
@@ -24,14 +36,47 @@ angular.module("Ctrl", [])
 })
 
 .controller("pegawaiController", function($scope, $http, $rootScope, SessionService) {
-    $rootScope.Session = {};
+    //$rootScope.Session = {};
     $scope.DatasPegawai = [];
     $scope.DataInputPegawai = {};
     $scope.DatasBidang = [];
     $scope.SelectedItemBidang = {};
     $scope.SelectedItemPegawai = {};
+    $scope.Pangkat = [
+        { 'gol': 'I/a' },
+        { 'gol': 'I/b' },
+        { 'gol': 'I/c' },
+        { 'gol': 'I/d' },
+        { 'gol': 'II/a' },
+        { 'gol': 'II/b' },
+        { 'gol': 'II/c' },
+        { 'gol': 'II/d' },
+        { 'gol': 'III/a' },
+        { 'gol': 'III/b' },
+        { 'gol': 'III/c' },
+        { 'gol': 'III/d' },
+        { 'gol': 'IV/a' },
+        { 'gol': 'IV/b' },
+        { 'gol': 'IV/c' },
+        { 'gol': 'IV/d' },
+        { 'gol': 'IV/e' }
+    ];
+    $scope.SelectedPangkat = {};
     $scope.Init = function() {
         //Auth
+        var Urlauth = "api/datas/auth.php";
+        $http({
+                method: "get",
+                url: Urlauth,
+            })
+            .then(function(response) {
+                if (response.data.Session == false) {
+                    window.location.href = 'login.html';
+                } else
+                    $rootScope.Session = response.data.Session;
+            }, function(error) {
+                alert(error.message);
+            })
 
 
         //Get Bidang
@@ -65,6 +110,7 @@ angular.module("Ctrl", [])
     $scope.InsertPegawai = function() {
         $scope.DataInputPegawai.IdBidang = $scope.SelectedItemBidang.IdBidang;
         $scope.DataInputPegawai.NamaBidang = $scope.SelectedItemBidang.NamaBidang;
+        $scope.DataInputPegawai.Pangkat = $scope.SelectedPangkat.gol;
         var Data = $scope.DataInputPegawai;
         var InsertDataPegawai = "api/datas/createPegawai.php";
 
@@ -151,13 +197,26 @@ angular.module("Ctrl", [])
 
 .controller("BidangController", function($scope, $http, $rootScope, SessionService) {
     $scope.DatasBidang = [];
-    $rootScope.Session = {};
+    //$rootScope.Session = {};
     $scope.DataInputBidang = {};
     $scope.DataSelected = {};
     $scope.InputUser = {};
 
     $scope.Init = function() {
         //Auth
+        var Urlauth = "api/datas/auth.php";
+        $http({
+                method: "get",
+                url: Urlauth,
+            })
+            .then(function(response) {
+                if (response.data.Session == false) {
+                    window.location.href = 'login.html';
+                } else
+                    $rootScope.Session = response.data.Session;
+            }, function(error) {
+                alert(error.message);
+            })
 
 
 
@@ -354,9 +413,25 @@ angular.module("Ctrl", [])
 
 
 .controller("DaftarAbsenController", function($scope, $http, $rootScope, SessionService) {
-    $scope.DataPrices = [];
-    $rootScope.Session = {};
+    $scope.DataTanggal = {};
+    $scope.DatasAbsenPegawai = [];
+    //$rootScope.Session = {};
     $scope.Init = function() {
+        //Auth
+        var Urlauth = "api/datas/auth.php";
+        $http({
+                method: "get",
+                url: Urlauth,
+            })
+            .then(function(response) {
+                if (response.data.Session == false) {
+                    window.location.href = 'login.html';
+                } else
+                    $rootScope.Session = response.data.Session;
+            }, function(error) {
+                alert(error.message);
+            })
+
         var UrlPrices = "api/Prices.php?action=GetPrices";
         $http({
                 method: "get",
@@ -369,13 +444,44 @@ angular.module("Ctrl", [])
             })
     }
 
+    $scope.Cari = function() {
+        var Data = $scope.DataTanggal;
+        var UrlAbsen = "api/datas/readAbsenPegawai.php";
+        $http({
+                method: "post",
+                url: UrlAbsen,
+                data: Data
+            })
+            .then(function(response) {
+                $scope.DatasAbsenPegawai = response.data.records[0];
+            }, function(error) {
+                alert(error.message);
+            })
+
+    }
 })
 
 .controller("ViewAbsenController", function($scope, $http, $rootScope, SessionService) {
-    $rootScope.Session = {};
+    //$rootScope.Session = {};
     $scope.DatasAbsen = [];
     $scope.DataTanggal = {};
+    $scope.DataPegawai = {};
+
     $scope.Init = function() {
+        //Auth
+        var Urlauth = "api/datas/auth.php";
+        $http({
+                method: "get",
+                url: Urlauth,
+            })
+            .then(function(response) {
+                if (response.data.Session == false) {
+                    window.location.href = 'login.html';
+                } else
+                    $rootScope.Session = response.data.Session;
+            }, function(error) {
+                alert(error.message);
+            })
 
     }
     $scope.Cari = function() {
@@ -393,11 +499,53 @@ angular.module("Ctrl", [])
             })
     }
 
+    $scope.Cetak = function() {
+        var Data = $scope.DataTanggal;
+        var date = $scope.DataTanggal;
+
+        //Convert Dtate  Tostring
+        startDate = date.Year + " " + date.Month + " " + date.Day;
+
+
+
+        //$scope.DataTanggal.DTanggal = $filter('date')($scope.DataTanggal.DariTanggal, "yyyy-MM-dd");
+        var UrlAbsen = "api/datas/dataTanggal.php";
+        $http({
+                method: "post",
+                url: UrlAbsen,
+                data: Data
+            })
+            .then(function(response) {
+                if (response.data.message == true)
+                    window.open('apps/laporan/LaporanAbsen.html', '_blank')
+            }, function(error) {
+                alert(error.message);
+            })
+    }
+
+    $scope.CetakPegawai = function(item) {
+        $scope.DataPegawai = item;
+        var Data = $scope.DataPegawai;
+        var UrlDataPegawai = "api/datas/setTanggal.php";
+        $http({
+                method: "post",
+                url: UrlDataPegawai,
+                data: Data
+            })
+            .then(function(response) {
+                if (response.data.message == true)
+                    window.open('apps/laporan/LaporanPegawai.html', '_blank')
+            }, function(error) {
+                alert(error.message);
+            })
+
+    }
+
 })
 
 .controller("HariLiburController", function($scope, $http, $rootScope, SessionService) {
     $scope.DatasHariLibur = [];
-    $rootScope.Session = {};
+    //$rootScope.Session = {};
     $scope.DataInputHariLibur = {};
     $scope.Init = function() {
         //Auth
@@ -479,8 +627,66 @@ angular.module("Ctrl", [])
             })
     }
 
+
+
 })
 
-.controller("CollesController", function($scope, $http) {
+.controller("StatusAbsenController", function($scope, $http) {
+    $scope.DatasStatusAbsen = [];
+    $scope.DatasPegawai = [];
+    $scope.DataJenis = [{ 'jenis': 'Izin' }, { 'jenis': 'Cuti' }, { 'jenis': 'Sakit' }, { 'jenis': 'DL' }];
+    $scope.DataInput = {};
+    $scope.SelectedItemPegawai = {};
+    $scope.SelectedJenis = {};
+    $scope.Init = function() {
+        //Get Data Pegawai
+        var UrlPegawai = "api/datas/readPegawai.php";
+        $http({
+                method: "get",
+                url: UrlPegawai
+            })
+            .then(function(response) {
+                $scope.DatasPegawai = response.data.records;
+            }, function(error) {
+                alert(error.message);
+            })
+
+        //Get Data Status
+        var UrldataStatus = "api/datas/readStatusAbsen.php";
+        $http({
+                method: "get",
+                url: UrldataStatus
+            })
+            .then(function(response) {
+                $scope.DatasStatusAbsen = response.data.records;
+            }, function(error) {
+                alert(error.message);
+            })
+
+    }
+
+    $scope.InsertStatusAbsen = function() {
+        $scope.DataInput.Nip = $scope.SelectedItemPegawai.Nip;
+        $scope.DataInput.Nama = $scope.SelectedItemPegawai.Nama;
+        $scope.DataInput.Jenis = $scope.SelectedJenis.jenis;
+        var Data = $scope.DataInput;
+        var UrlStatus = "api/datas/createStatusAbsen.php";
+        $http({
+                method: "post",
+                url: UrlStatus,
+                data: Data
+            })
+            .then(function(response) {
+                if (response.data.message > 1) {
+                    Data.Id = response.data.message;
+                    $scope.DatasStatusAbsen.push(Data);
+                }
+            }, function(error) {
+                alert(error.message);
+            })
+
+        $scope.SelectedItemPegawai = {};
+        $scope.SelectedJenis = {};
+    }
 
 });

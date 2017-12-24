@@ -7,19 +7,41 @@
 </div>
 
 <div ng-init="Init()">
-    <button class="btn btn-primary pull-left" title="Tambah Bidang" data-toggle="modal" data-target="#TambahBidang">
-        <i class="fa fa-plus fa-2x"></i>
-    </button>
+    <div class="col-md-12">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>Dari Tanggal</label>
+                <input class="form-control" type="date" ng-model="DataTanggal.DariTanggal">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>Sampai Tanggal</label>
+                <input class="form-control" type="date" ng-model="DataTanggal.SampaiTanggal">
+            </div>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-primary pull-left" title="Cari Data Absen" ng-click="Cari()">
+                            <i class="fa fa-search fa-2x"></i>
+                        </button>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-primary pull-left" title="Cari Data Absen" ng-click="Cetak()">
+                                <i class="fa fa-print fa-2x"></i>
+                            </button>
+        </div>
 
-    <div class="row">
-        <div class="col-lg-12">
-            <!-- Advanced Tables -->
 
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Advanced Tables
-                </div>
-                <div class="panel-body">
+    </div>
+
+
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Absen
+            </div>
+            <div class="panel-body">
+                <div class="col-lg-12">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
@@ -28,80 +50,93 @@
                                     <th>Tanggal Absen</th>
                                     <th>Jam Datang</th>
                                     <th>Jam Pulang</th>
+                                    <th>Keterangan</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="odd gradeX" ng-repeat="item in DatasBidang">
-                                    <td scope="row">{{$index+1}}</td>
-                                    <td>{{item.NamaBidang}}</td>
-                                    <td>{{item.KepalaBagian}}</td>
-                                    <td>
-                                        <button class="btn btn-info btn-circle pull-left" title="Update Bidang" data-toggle="modal" data-target="#UpdateBidang" ng-click="Selected(item)">
-                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                        </button>
-                                        <button class="btn btn-danger btn-circle pull-right" title="Hapus Bidang" data-toggle="modal" ng-click="Delete(item)">
-                                            <i class="fa fa-times" aria-hidden="true"></i>
-                                        </button>
-                                    </td>
+                                <tr class="odd gradeX" ng-repeat="itemAbsen in DatasAbsenPegawai.Tanggal">
+                                    <td ng-show="itemAbsen.Keterangan=='Hadir'">{{$index+1}}</td>
+                                    <td ng-show="itemAbsen.Keterangan!='Hadir'">{{$index+1}}</td>
+                                    <td ng-show="itemAbsen.Keterangan!='Hadir'">{{itemAbsen.Tanggal}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Hadir'">{{itemAbsen.Tanggal}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Hadir'" style="background-color:rgba(0, 255, 0, 0.925);">{{itemAbsen.JamDatang}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Hadir'" style="background-color:rgba(0, 255, 0, 0.925);">{{itemAbsen.JamPulang}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Izin'" colspan="3" style="background-color:rgba(255, 0, 64, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Alpha'" colspan="3" style="background-color:rgba(255, 153, 0, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Cuti'" colspan="3" style="background-color:rgba(0, 255, 242, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Hari Sabtu'" colspan="3" style="background-color:red;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Sakit'" colspan="3" style="background-color:rgba(238, 255, 0, 0.925);">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='DL'" colspan="3" style="background-color:red;text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Hadir'" style="background-color:rgba(0, 255, 0, 0.925);">{{itemAbsen.Keterangan}}</td>
+
+                                    <td ng-show="itemAbsen.Keterangan=='Hari Minggu'" colspan="3" style="background-color:red;text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan!='Hadir' && itemAbsen.Keterangan!='Hari Minggu' && itemAbsen.Keterangan!='DL' && itemAbsen.Keterangan!='Sakit' && itemAbsen.Keterangan!='Hari Sabtu' && itemAbsen.Keterangan!='Cuti' && itemAbsen.Keterangan!='Alpha' && itemAbsen.Keterangan!='Izin'"
+                                        colspan="3" style="background-color:red;text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+
                                 </tr>
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
-            <!--End Advanced Tables -->
         </div>
     </div>
-
 </div>
 
-<div class="modal fade" id="TambahBidang" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+
+<div class="modal fade" id="TambahPerangkat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Tambah Bidang</h4>
+                <h4 class="modal-title" id="myModalLabel">Tambah Perangkat</h4>
             </div>
             <div class="modal-body">
                 <form role="form">
                     <div class="form-group">
-                        <input class="form-control" placeholder="Nama Bidang" ng-model="DataInputBidang.NamaBidang">
+                        <select class="form-control" ng-options="item as item.Nama for item in DatasPegawai track by item.Nama" ng-model="SelectedItemPegawai"></select>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Kepala Bagian" ng-model="DataInputBidang.KepalaBagian">
+                        <input class="form-control" placeholder="Nip" ng-model="SelectedItemPegawai.Nip">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="MacAddress" ng-model="DataInputPerangkat.MacAddress">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" ng-click="InsertBidang()">Save changes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="InsertPerangkat()">Save changes</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="UpdateBidang" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="UpdatePerangkat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Update Bidang</h4>
+                <h4 class="modal-title" id="myModalLabel">Update Perangkat</h4>
             </div>
             <div class="modal-body">
                 <form role="form">
                     <div class="form-group">
-                        <input class="form-control" placeholder="Nama Bidang" ng-model="DataSelected.NamaBidang">
+                        <input class="form-control" placeholder="Nip" ng-model="DataSelected.Nip" disabled>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" placeholder="Kepala Bagian" ng-model="DataSelected.KepalaBagian">
+                        <input class="form-control" placeholder="Nama" ng-model="DataSelected.Nama" disabled>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Mac Address" ng-model="DataSelected.MacAddress">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="UpdateDataBidang()">Save changes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="UpdateDataPerangkat()">Save changes</button>
             </div>
         </div>
     </div>

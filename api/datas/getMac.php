@@ -68,8 +68,8 @@ function getOS() {
     if($_SERVER['SERVER_NAME']!="localhost")
     {
         $stmt = $getmac->readMac();
-        echo json_encode(array("MacAdress" => $stmt, "OS"=>$OS));
+        echo json_encode(array("MacAddress" => $stmt, "OS"=>$OS));
     }else
-        echo json_encode(array("MacAdress" => NULL, "OS"=>$OS));
+        echo json_encode(array("MacAddress" => NULL, "OS"=>$OS));
 
 ?>

@@ -15,12 +15,42 @@
 
 </head>
 
-<body ng-app="Ctrl" ng-controller="NotaController" ng-init="Init()">
-    <center>
-        <h3>PEMERINTAH KOTA JAYAPURA</h3>
-        <H1>BADAN PENDAPATAN DAERAH</H1>
-        <H5>Jalan Kabupaten III No. 2 Telp. 0967 537380 Jayapura-Papua</H5>
-    </center>
+<body ng-app="Ctrl" ng-controller="LaporanController" ng-init="Init()">
+    <div id="col-12" style="border-bottom: solid;">
+        <div id="col-1">
+        </div>
+        <div id="col-10">
+            <div id="col-12">
+                <div id="col-4" style="text-align: right!important;">
+                    <img src="../../assets/img/LogoJayapura.png" width="60px" height="75px">
+                </div>
+                <div id="col-8">
+                    <div id="col-12">
+                        <div id="col-10">
+                            <center>
+                                <h3>PEMERINTAH KOTA JAYAPURA</h3>
+                                <H1>BADAN PENDAPATAN DAERAH</H1>
+                                <H5>Jalan Kabupaten III No. 2 Telp. 0967 537380 Jayapura-Papua</H5>
+                            </center>
+                        </div>
+                        <div id="col-2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="col-1">
+        </div>
+    </div>
+    <div id="col-12">
+        <center>
+            <h4>REKAPITULASI DAFTAR HARDIR KUMULATIF</h4>
+            <H4>PERIODE .....</H4>
+        </center>
+    </div>
+
+
     <H5>UNIT KERJA: BADAN PENDAPATAN DAERAH KOTA JAYAPURA</H5>
     <table width=100%>
         <tr>
@@ -43,6 +73,20 @@
             <th style="font-size: 11px;">CT</th>
         </tr>
         <tr ng-repeat="item in DataRekap">
+            <td scope="row">{{$index+1}}</td>
+            <td>{{item.Nip}}</td>
+            <td>{{item.Nama}}</td>
+            <td>{{item.Pangkat}}</td>
+            <td>{{item.Jabatan}}</td>
+            <td>{{item.JumlahHari}}</td>
+            <td>{{item.Hadir}}</td>
+            <td>{{item.Alpa}}</td>
+            <td>{{}}</td>
+            <td>{{}}</td>
+            <td>{{}}</td>
+            <td>{{}}</td>
+            <td>{{item.Alpa}}</td>
+            <td>{{item.Ratio}}</td>
 
         </tr>
     </table>
@@ -50,21 +94,22 @@
 
     <script>
         angular.module("Ctrl", [])
-            .controller("NotaController", function($scope, $http) {
-                $scope.DataNota = {};
+            .controller("LaporanController", function($scope, $http) {
+                $scope.DataRekap = [];
                 $scope.Init = function() {
-                    /*
-                    var GetNota = "../../api/datas/readDataNota.php";
+
+
+
+                    var GetNota = "../../api/datas/readLaporan.php";
                     $http({
                             method: "get",
                             url: GetNota
                         })
                         .then(function(response) {
-                            $scope.DataNota = response.data;
+                            $scope.DataRekap = response.data.records;
                         }, function(error) {
                             alert(error.message);
                         })
-                        */
                 }
 
 

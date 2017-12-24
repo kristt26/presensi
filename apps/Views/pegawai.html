@@ -30,6 +30,7 @@
                                     <th>Sex</th>
                                     <th>Bidang</th>
                                     <th>Jabatan</th>
+                                    <th>Pangkat</th>
                                     <th>Alamat</th>
                                     <th>Action</th>
                                 </tr>
@@ -42,6 +43,7 @@
                                     <td class="center">{{item.Sex}}</td>
                                     <td class="center">{{item.NamaBidang}}</td>
                                     <td>{{item.Jabatan}}</td>
+                                    <td>{{item.Pangkat}}</td>
                                     <td>{{item.Alamat}}</td>
                                     <td>
                                         <button class="btn btn-info btn-circle pull-left" title="Update Pegawai" data-toggle="modal" data-target="#UpdatePegawai" ng-click="Selected(item)">
@@ -96,6 +98,9 @@
                     </div>
                     <div class="form-group">
                         <input class="form-control" placeholder="Jabatan" ng-model="DataInputPegawai.Jabatan">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-options="item as item.gol for item in Pangkat track by item.gol" ng-model="SelectedPangkat"></select>
                     </div>
                     <div class="form-group">
                         <textarea class="form-control" rows="3" placeholder="Alamat" ng-model="DataInputPegawai.Alamat"></textarea>

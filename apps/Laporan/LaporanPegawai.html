@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+
+    <title>Cetak Nota</title>
+
+    <link rel='stylesheet' type='text/css' href='css/style.css' />
+    <link rel='stylesheet' type='text/css' href='css/print.css' media="print" />
+    <script type='text/javascript' src='js/jquery-1.3.2.min.js'></script>
+    <script type='text/javascript' src='js/example.js'></script>
+    <script src="../../assets/scripts/angular.min.js"></script>
+    <script src="../../assets/scripts/angular-route.js"></script>
+
+</head>
+
+<body ng-app="Ctrl" ng-controller="LaporanController" ng-init="Init()">
+    <div id="page-wrap">
+        <div id="col-12" style="border-bottom: solid;">
+
+            <div id="col-3" style="text-align: right!important;">
+                <img src="../../assets/img/LogoJayapura.png" width="60px" height="75px">
+            </div>
+            <div id="col-9">
+                <div id="col-12">
+                    <div id="col-10">
+                        <center>
+                            <h3>PEMERINTAH KOTA JAYAPURA</h3>
+                            <H1>BADAN PENDAPATAN DAERAH</H1>
+                            <H5>Jalan Kabupaten III No. 2 Telp. 0967 537380 Jayapura-Papua</H5>
+                        </center>
+                    </div>
+                    <div id="col-2">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div id="col-12">
+            <center>
+                <h4>REKAPITULASI DAFTAR HARDIR PEGAWAI</h4>
+                <H4>PERIODE .....</H4>
+            </center>
+        </div>
+
+        <div id="col-12">
+            <div id="col-8">
+                <div id="col-1">
+                    Nama
+                </div>
+                <div id="col-1" style="text-align: right!important;">
+                    :&nbsp;
+                </div>
+                <div id="col-4">
+                    {{DataRekap.Nama}}
+                </div>
+            </div>
+            <div id="col-6"></div>
+        </div>
+        <div id="col-12">
+            <div id="col-8">
+                <div id="col-1">
+                    Nip
+                </div>
+                <div id="col-1" style="text-align: right!important;">
+                    :&nbsp;
+                </div>
+                <div id="col-4">
+                    {{DataRekap.Nip}}
+                </div>
+            </div>
+            <div id="col-6"></div>
+        </div>
+        <div id="col-12">
+            <div id="col-8">
+                <div id="col-1">
+                    Nama
+                </div>
+                <div id="col-1" style="text-align: right!important;">
+                    :&nbsp;
+                </div>
+                <div id="col-4">
+                    {{DataRekap.Jabatan}}
+                </div>
+            </div>
+            <div id="col-6"></div>
+        </div>
+
+        <table width=100%>
+            <tr>
+                <th>No</th>
+                <th>Tanggal Absen</th>
+                <th>Jam Datang</th>
+                <th>Jam Pulang</th>
+                <th>Keterangan</th>
+
+            </tr>
+
+            <tr class="odd gradeX" ng-repeat="itemAbsen in DataRekap.Tanggal">
+                <td ng-show="itemAbsen.Keterangan=='Hadir'">{{$index+1}}</td>
+                <td ng-show="itemAbsen.Keterangan!='Hadir'">{{$index+1}}</td>
+                <td ng-show="itemAbsen.Keterangan!='Hadir'">{{itemAbsen.Tanggal}}</td>
+                <td ng-show="itemAbsen.Keterangan=='Hadir'">{{itemAbsen.Tanggal}}</td>
+                <td ng-show="itemAbsen.Keterangan=='Hadir'" style="background-color:rgba(0, 255, 0, 0.925);">{{itemAbsen.JamDatang}}</td>
+                <td ng-show="itemAbsen.Keterangan=='Hadir'" style="background-color:rgba(0, 255, 0, 0.925);">{{itemAbsen.JamPulang}}</td>
+                <td ng-show="itemAbsen.Keterangan=='Izin'" colspan="3" style="background-color:rgba(255, 0, 64, 0.925);">{{itemAbsen.Keterangan}}</td>
+                <td ng-show="itemAbsen.Keterangan=='Alpha'" colspan="3" style="background-color:rgba(255, 153, 0, 0.925);">{{itemAbsen.Keterangan}}</td>
+                <td ng-show="itemAbsen.Keterangan=='Cuti'" colspan="3" style="background-color:rgba(0, 255, 242, 0.925);">{{itemAbsen.Keterangan}}</td>
+                <td ng-show="itemAbsen.Keterangan=='Hari Sabtu'" colspan="3" style="background-color:red;">{{itemAbsen.Keterangan}}</td>
+                <td ng-show="itemAbsen.Keterangan=='Sakit'" colspan="3" style="background-color:rgba(238, 255, 0, 0.925);">{{itemAbsen.Keterangan}}</td>
+                <td ng-show="itemAbsen.Keterangan=='DL'" colspan="3">{{itemAbsen.Keterangan}}</td>
+                <td ng-show="itemAbsen.Keterangan=='Hadir'" style="background-color:rgba(0, 255, 0, 0.925);">{{itemAbsen.Keterangan}}</td>
+
+                <td ng-show="itemAbsen.Keterangan=='Hari Minggu'" colspan="3" style="background-color:red;">{{itemAbsen.Keterangan}}</td>
+                <td ng-show="itemAbsen.Keterangan!='Hadir' && itemAbsen.Keterangan!='Hari Minggu' && itemAbsen.Keterangan!='DL' && itemAbsen.Keterangan!='Sakit' && itemAbsen.Keterangan!='Hari Sabtu' && itemAbsen.Keterangan!='Cuti' && itemAbsen.Keterangan!='Alpha' && itemAbsen.Keterangan!='Izin'"
+                    colspan="3" style="background-color:red;text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        angular.module("Ctrl", [])
+            .controller("LaporanController", function($scope, $http) {
+                $scope.DataRekap = [];
+                $scope.Init = function() {
+                    var GetNota = "../../api/datas/readLaporanPegawai.php";
+                    $http({
+                            method: "get",
+                            url: GetNota
+                        })
+                        .then(function(response) {
+                            $scope.DataRekap = response.data.records[0];
+                        }, function(error) {
+                            alert(error.message);
+                        })
+                }
+
+
+            });
+    </script>
+
+
+</body>
+
+</html>

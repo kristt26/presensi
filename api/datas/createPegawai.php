@@ -29,6 +29,7 @@ $pegawai->Kontak = $data->Kontak;
 $pegawai->Sex = $data->Sex;
 $pegawai->IdBidang = $data->IdBidang;
 $pegawai->Jabatan = $data->Jabatan;
+$pegawai->Pangkat = $data->Pangkat;
 $pegawai->Email = $data->Email;
 $pegawai->Password = md5("12345678");
  

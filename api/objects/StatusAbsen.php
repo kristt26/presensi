@@ -1,30 +1,23 @@
 <?php
-class HariLibur{
+class StatusAbsen{
  
     // database connection and table name
     private $conn;
-    private $table_name = "harilibur";
+    private $table_name = "keteranganabsen";
  
     // object properties
-    public $IdHari;
-    public $DariTgl;
-    public $SampaiTgl;
+    public $Id;
+    public $Nip;
+    public $Jenis;
+    public $TglPengajuan;
+    public $TglMulai;
+    public $TglSelesai;
     public $Keterangan;
     
  
     // constructor with $db as database connection
     public function __construct($db){
         $this->conn = $db;
-    }
-
-    function IntervalDays($CheckIn,$CheckOut){
-        $CheckInX = explode("-", $CheckIn);
-        $CheckOutX =  explode("-", $CheckOut);
-        $date1 =  mktime(0, 0, 0, $CheckInX[1],$CheckInX[2],$CheckInX[0]);
-        $date2 =  mktime(0, 0, 0, $CheckOutX[1],$CheckOutX[2],$CheckOutX[0]);
-        $interval =($date2 - $date1)/(3600*24);
-        // returns numberofdays
-        return  $interval ;
     }
 
     // read products
@@ -42,20 +35,21 @@ class HariLibur{
        return $stmt;
     }
 
-    function readByDate($tgl){
+
+    function readByDate($tgl, $Nipp){
         
            // select all query
-           $query = "SELECT * from " . $this->table_name . " 
-           where DariTgl<=? and SampaiTgl>=?";
+           $query = "SELECT * from " . $this->table_name . "
+           WHERE Nip=? and TglMulai<=? and TglSelesai>=?";
         
            // prepare query statement
            $stmt = $this->conn->prepare($query);
-
-           $tgl=htmlspecialchars(strip_tags($tgl));
-
-           $stmt->bindParam(1, $tgl);
-           $stmt->bindParam(2, $tgl);
         
+           $tgl=htmlspecialchars(strip_tags($tgl));
+           
+           $stmt->bindParam(1, $Nipp);
+            $stmt->bindParam(2, $tgl);
+            $stmt->bindParam(3, $tgl);
            // execute query
            $stmt->execute();
         
@@ -69,24 +63,30 @@ class HariLibur{
        $query = "INSERT INTO
                    " . $this->table_name . "
                SET
-                   DariTgl=:DariTgl, SampaiTgl=:SampaiTgl, Keterangan=:Keterangan";
+                   Nip=:Nip, Jenis=:Jenis, TglPengajuan=:TglPengajuan, TglMulai=:TglMulai, TglSelesai=:TglSelesai, Keterangan=:Keterangan";
     
        // prepare query
        $stmt = $this->conn->prepare($query);
     
        // sanitize
-       $this->DariTgl=htmlspecialchars(strip_tags($this->DariTgl));
-       $this->SampaiTgl=htmlspecialchars(strip_tags($this->SampaiTgl));
+       $this->Nip=htmlspecialchars(strip_tags($this->Nip));
+       $this->Jenis=htmlspecialchars(strip_tags($this->Jenis));
+       $this->TglPengajuan=htmlspecialchars(strip_tags($this->TglPengajuan));
+       $this->TglMulai=htmlspecialchars(strip_tags($this->TglMulai));
+       $this->TglSelesai=htmlspecialchars(strip_tags($this->TglSelesai));
        $this->Keterangan=htmlspecialchars(strip_tags($this->Keterangan));
       
        // bind values
-       $stmt->bindParam(":DariTgl", $this->DariTgl);
-       $stmt->bindParam(":SampaiTgl", $this->SampaiTgl);
+       $stmt->bindParam(":Nip", $this->Nip);
+       $stmt->bindParam(":Jenis", $this->Jenis);
+       $stmt->bindParam(":TglPengajuan", $this->TglPengajuan);
+       $stmt->bindParam(":TglMulai", $this->TglMulai);
+       $stmt->bindParam(":TglSelesai", $this->TglSelesai);
        $stmt->bindParam(":Keterangan", $this->Keterangan);
     
        // execute query
        if($stmt->execute()){
-           $this->IdHari = $this->conn->lastInsertId();
+           $this->Id = $this->conn->lastInsertId();
            return true;
        }else{
            return false;
@@ -101,25 +101,25 @@ class HariLibur{
        $query = "UPDATE
                    " . $this->table_name . "
                SET
-                    DariTgl=:DariTgl, 
-                    SampaiTgl=:SampaiTgl,
-                    Keterangan=:Keterangan                  
+                    TglMulai=:TglMulai, 
+                    TglSelesai=:TglSelesai,
+                    Keterangan=:Keterangan          
                WHERE
-                   IdHari = :IdHari";
+                   Id = :Id";
     
        // prepare query statement
        $stmt = $this->conn->prepare($query);
     
        // sanitize
-       $this->IdHari=htmlspecialchars(strip_tags($this->IdHari));
-       $this->DariTgl=htmlspecialchars(strip_tags($this->DariTgl));
-       $this->SampaiTgl=htmlspecialchars(strip_tags($this->SampaiTgl));
+       $this->Id=htmlspecialchars(strip_tags($this->Id));
+       $this->TglMulai=htmlspecialchars(strip_tags($this->TglMulai));
+       $this->TglSelesai=htmlspecialchars(strip_tags($this->TglSelesai));
        $this->Keterangan=htmlspecialchars(strip_tags($this->Keterangan));
     
        // bind new values
-       $stmt->bindParam(":IdHari", $this->IdHari);
-       $stmt->bindParam(":DariTgl", $this->DariTgl);
-       $stmt->bindParam(":SampaiTgl", $this->SampaiTgl);
+       $stmt->bindParam(":Id", $this->Id);
+       $stmt->bindParam(":TglMulai", $this->TglMulai);
+       $stmt->bindParam(":TglSelesai", $this->TglSelesai);
        $stmt->bindParam(":Keterangan", $this->Keterangan);
     
        // execute the query
@@ -134,16 +134,16 @@ class HariLibur{
    function delete(){
     
        // delete query
-       $query = "DELETE FROM " . $this->table_name . " WHERE IdHari = ?";
+       $query = "DELETE FROM " . $this->table_name . " WHERE Id = ?";
     
        // prepare query
        $stmt = $this->conn->prepare($query);
     
        // sanitize
-       $this->IdHari=htmlspecialchars(strip_tags($this->IdHari));
+       $this->Id=htmlspecialchars(strip_tags($this->Id));
     
        // bind id of record to delete
-       $stmt->bindParam(1, $this->IdHari);
+       $stmt->bindParam(1, $this->Id);
     
        // execute query
        if($stmt->execute()){
