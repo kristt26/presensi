@@ -127,7 +127,7 @@ angular.module("Ctrl", [])
             }, function(error) {
                 alert(error.message);
             })
-        $scope.DataInputPegawai = {};
+            //$scope.DataInputPegawai = {};
     }
 
     //Selected Item City
@@ -138,6 +138,7 @@ angular.module("Ctrl", [])
             }
         });
         $scope.SelectedItemPegawai = item;
+        $scope.SelectedPangkat.gol = $scope.SelectedItemPegawai.Pangkat;
     }
 
     //Update Data City

@@ -81,7 +81,7 @@ class Pegawai{
        $query = "INSERT INTO
                    " . $this->table_name . "
                SET
-                   Nip=:Nip, Nama=:Nama, Alamat=:Alamat, Kontak=:Kontak, Sex=:Sex, IdBidang=:IdBidang, Jabatan=:Jabatan, Pangkat=:Pangkat Email=:Email, Password=:Password";
+                   Nip=:Nip, Nama=:Nama, Alamat=:Alamat, Kontak=:Kontak, Sex=:Sex, IdBidang=:IdBidang, Jabatan=:Jabatan, Pangkat=:Pangkat, Email=:Email, Password=:Password";
     
        // prepare query
        $stmt = $this->conn->prepare($query);
