@@ -130,7 +130,9 @@ class Pegawai{
                     Kontak=:Kontak, 
                     Sex=:Sex, 
                     IdBidang=:IdBidang, 
-                    Jabatan=:Jabatan
+                    Jabatan=:Jabatan,
+                    Pangkat=:Pangkat, 
+                    Email=:Email
                WHERE
                    Nip = :Nip";
     
@@ -145,6 +147,8 @@ class Pegawai{
        $this->Sex=htmlspecialchars(strip_tags($this->Sex));
        $this->IdBidang=htmlspecialchars(strip_tags($this->IdBidang));
        $this->Jabatan=htmlspecialchars(strip_tags($this->Jabatan));
+       $this->Pangkat=htmlspecialchars(strip_tags($this->Pangkat));
+       $this->Email=htmlspecialchars(strip_tags($this->Email));
     
        // bind new values
        $stmt->bindParam(":Nip", $this->Nip);
@@ -154,6 +158,8 @@ class Pegawai{
        $stmt->bindParam(":Sex", $this->Sex);
        $stmt->bindParam(":IdBidang", $this->IdBidang);
        $stmt->bindParam(":Jabatan", $this->Jabatan);
+       $stmt->bindParam(":Pangkat", $this->Pangkat);
+       $stmt->bindParam(":Email", $this->Email);
     
        // execute the query
        if($stmt->execute()){
@@ -181,9 +187,12 @@ class Pegawai{
        // execute query
        if($stmt->execute()){
            return true;
+       }else
+       {
+            return false;
        }
     
-       return false;
+       
         
    }
 }

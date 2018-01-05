@@ -43,7 +43,8 @@ if($num>0){
             "IdBidang" => $IdBidang,
             "NamaBidang"=>$NamaBidang,
             "Jabatan" => $Jabatan,
-            "Pangkat" => $Pangkat
+            "Pangkat" => $Pangkat,
+            "Email" =>$Email
         );
  
         array_push($products_arr["records"], $product_item);

@@ -127,7 +127,7 @@ angular.module("Ctrl", [])
             }, function(error) {
                 alert(error.message);
             })
-            //$scope.DataInputPegawai = {};
+        $scope.DataInputPegawai = {};
     }
 
     //Selected Item City
@@ -145,6 +145,7 @@ angular.module("Ctrl", [])
     $scope.UpdateDataPegawai = function() {
         $scope.SelectedItemPegawai.IdBidang = $scope.SelectedItemBidang.IdBidang;
         $scope.SelectedItemPegawai.NamaBidang = $scope.SelectedItemBidang.NamaBidang;
+        $scope.SelectedItemPegawai.Pangkat = $scope.SelectedPangkat.gol;
         var Data = $scope.SelectedItemPegawai;
         var UrlUpdatePegawai = "api/datas/updatePegawai.php";
         $http({
@@ -163,6 +164,7 @@ angular.module("Ctrl", [])
                             value.IdBidang = Data.IdBidang;
                             value.NamaBidang = Data.NamaBidang;
                             value.Jabatan = Data.Jabatan;
+                            value.Email = Data.Email;
                         }
                     })
                 } else
@@ -639,6 +641,7 @@ angular.module("Ctrl", [])
     $scope.DataInput = {};
     $scope.SelectedItemPegawai = {};
     $scope.SelectedJenis = {};
+    $scope.DataSelected = {};
     $scope.Init = function() {
         //Get Data Pegawai
         var UrlPegawai = "api/datas/readPegawai.php";
@@ -664,6 +667,10 @@ angular.module("Ctrl", [])
                 alert(error.message);
             })
 
+    }
+
+    $scope.Selected = function(item) {
+        $scope.DataSelected = item;
     }
 
     $scope.InsertStatusAbsen = function() {

@@ -24,12 +24,15 @@ $data = json_decode(file_get_contents("php://input"));
 $pegawai->Nip = $data->Nip;
  
 // set product property values
+$pegawai->Nip = $data->Nip;
 $pegawai->Nama = $data->Nama;
 $pegawai->Alamat = $data->Alamat;
 $pegawai->Kontak = $data->Kontak;
 $pegawai->Sex = $data->Sex;
 $pegawai->IdBidang = $data->IdBidang;
 $pegawai->Jabatan = $data->Jabatan;
+$pegawai->Pangkat = $data->Pangkat;
+$pegawai->Email = $data->Email;
  
 // update the product
 if($pegawai->update()){

@@ -1,13 +1,6 @@
-<div class="row">
-    <!--  page header -->
-    <div class="col-lg-12">
-        <h1 class="page-header">Data Pegawai</h1>
-    </div>
-    <!-- end  page header -->
-</div>
-
+<br><br>
 <div ng-init="Init()">
-    <button class="btn btn-primary pull-left" title="Tambah Pegawai" data-toggle="modal" data-target="#TambahPegawai">
+    <button class="btn btn-primary pull-right" title="Tambah Pegawai" data-toggle="modal" data-target="#TambahPegawai">
         <i class="fa fa-plus fa-2x"></i>
     </button>
 
@@ -17,7 +10,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Advanced Tables
+                    Data Pegawai
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -155,10 +148,10 @@
                         <select class="form-control" ng-options="item as item.gol for item in Pangkat track by item.gol" ng-model="SelectedPangkat"></select>
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" rows="3" placeholder="Alamat" ng-model="DataInputPegawai.Alamat"></textarea>
+                        <textarea class="form-control" rows="3" placeholder="Alamat" ng-model="SelectedItemPegawai.Alamat"></textarea>
                     </div>
                     <div class="form-group">
-                        <input class="form-control" type="Email" placeholder="email@example.com" ng-model="DataInputPegawai.Email">
+                        <input class="form-control" type="Email" placeholder="email@example.com" ng-model="SelectedItemPegawai.Email">
                     </div>
                 </form>
             </div>
