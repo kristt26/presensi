@@ -31,10 +31,11 @@ $absen->MacAddress=$data->MacAddress;
 $absen->TglAbsen= date('Y-m-d');
 $absen->JamDatang=date('H:i:s');
 $absen->JamPulang=date('H:i:s');
-$d=mktime(09, 00, 00, 8, 12, 2014);
+$d= strtotime("15 April 2014 09:00:00");
+$jam = date('H:i:s', $d);
 if($data->Keterangan=="Kosong")
 {
-    if($absen->JamDatang>=date("h:i:sa", $d))
+    if($absen->JamDatang<=$jam)
     {
         $absen->Keterangan="Hadir";
     }else
