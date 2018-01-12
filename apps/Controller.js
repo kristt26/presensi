@@ -671,6 +671,13 @@ angular.module("Ctrl", [])
 
     $scope.Selected = function(item) {
         $scope.DataSelected = item;
+        angular.forEach($scope.DatasPegawai, function(value, key) {
+            if (value.Nip == item.Nip) {
+                $scope.SelectedItemPegawai = value;
+            }
+        })
+        $scope.SelectedJenis.jenis = item.Jenis;
+
     }
 
     $scope.InsertStatusAbsen = function() {
