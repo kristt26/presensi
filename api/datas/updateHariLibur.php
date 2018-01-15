@@ -23,8 +23,17 @@ $data = json_decode(file_get_contents("php://input"));
 // set ID property of product to be edited
 $hariLibur->IdHari = $data->IdHari;
  
+$a = new DateTime($data->DariTgl);
+$aa=str_replace('-', '/', $a->format('Y-m-d'));
+$aaa = date('Y-m-d',strtotime($aa . "+1 days"));
+$b = new DateTime($data->SampaiTgl);
+$bb=str_replace('-', '/', $b->format('Y-m-d'));
+$bbb = date('Y-m-d',strtotime($bb . "+1 days"));
+
 // set product property values
-$hariLibur->TglLibur = $data->TglLibur;
+$hariLibur->IdHari = $data->IdHari;
+$hariLibur->DariTgl = $aaa;
+$hariLibur->SampaiTgl = $bbb;
 $hariLibur->Keterangan = $data->Keterangan;
  
 // update the product

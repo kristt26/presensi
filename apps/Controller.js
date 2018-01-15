@@ -550,6 +550,7 @@ angular.module("Ctrl", [])
     $scope.DatasHariLibur = [];
     //$rootScope.Session = {};
     $scope.DataInputHariLibur = {};
+    $scope.DataSelected={};
     $scope.Init = function() {
         //Auth
         var Urlauth = "api/datas/auth.php";
@@ -603,7 +604,11 @@ angular.module("Ctrl", [])
     }
 
     $scope.Selected = function(item) {
-        $scope.DataSelected = item;
+        //$scope.DataSelected = item;
+        $scope.DataSelected.DariTgl=new Date(item.DariTgl);
+        $scope.DataSelected.SampaiTgl=new Date(item.SampaiTgl);
+        $scope.DataSelected.Keterangan=item.Keterangan;
+        $scope.DataSelected.IdHari=item.IdHari;
     }
 
     $scope.UpdateDataHariLibur = function() {
@@ -616,10 +621,11 @@ angular.module("Ctrl", [])
             })
             .then(function(response) {
                 if (response.data.message == "Bidang was updated") {
-                    angular.forEach($scope.DatasBidang, function(value, key) {
-                        if (value.IdBidang == Data.IdBidang) {
-                            value.NamaBidang = Data.NamaBidang;
-                            value.KepalaBagian = Data.KepalaBagian;
+                    angular.forEach($scope.DatasHariLibur, function(value, key) {
+                        if (value.IdHari == Data.IdHari) {
+                            value.DariTgl = Data.DariTgl;
+                            value.SampaiTgl = Data.SampaiTgl;
+                            value.Keterangan = Data.Keterangan;
                             alert(response.data.message);
                         }
                     })
@@ -629,9 +635,25 @@ angular.module("Ctrl", [])
                 alert(error.message);
             })
     }
-
-
-
+    $scope.Delete=function(item){
+        $scope.DataSelected = item;
+        var Data = $scope.DataSelected;
+        var UrlDeleteHariLibur = "api/datas/deleteHariLibur.php";
+        $http({
+                method: "post",
+                url: UrlDeleteHariLibur,
+                data: Data
+            })
+            .then(function(response) {
+                if (response.data.message == "Hari Libur Berhasil Di Hapus") {
+                    $scope.DatasHariLibur.splice(Data, 1);
+                    alert(response.data.message);
+                } else
+                    alert("Data Tidak Terhapus");
+            }, function(error) {
+                alert(error.message);
+            })
+    }
 })
 
 .controller("StatusAbsenController", function($scope, $http) {
@@ -702,6 +724,26 @@ angular.module("Ctrl", [])
 
         $scope.SelectedItemPegawai = {};
         $scope.SelectedJenis = {};
+    }
+
+    $scope.Delete=function(item){
+        $scope.DataSelected = item;
+        var Data = $scope.DataSelected;
+        var UrlDeleteStatusAbsen = "api/datas/deleteStatusAbsen.php";
+        $http({
+                method: "post",
+                url: UrlDeleteStatusAbsen,
+                data: Data
+            })
+            .then(function(response) {
+                if (response.data.message == "Perangkat Berhasil Di Hapus") {
+                    $scope.DatasStatusAbsen.splice(Data, 1);
+                    alert(response.data.message);
+                } else
+                    alert("Data Tidak Terhapus");
+            }, function(error) {
+                alert(error.message);
+            })
     }
 
 });
