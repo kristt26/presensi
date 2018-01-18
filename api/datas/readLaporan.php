@@ -12,6 +12,7 @@ include_once '../../api/config/database.php';
 include_once '../../api/objects/HariLibur.php';
 include_once '../../api/objects/Pegawai.php';
 include_once '../../api/objects/Absen.php';
+include_once '../../api/objects/StatusAbsen.php';
 
 date_default_timezone_set('Asia/Seoul');
 session_start();
@@ -23,6 +24,8 @@ $harilibur = new HariLibur($db);
 
 $absen = new Absen($db);
 $pegawai = new Pegawai($db);
+
+$statusabsen = new StatusAbsen($db);
 $stmtPegawai = $pegawai->read();
 
 $DariTanggal = $_SESSION['DariTanggal'];
@@ -58,14 +61,20 @@ while ($rowpegawai = $stmtPegawai->fetch(PDO::FETCH_ASSOC)){
         "Ratio"=>null
     );
     $DariTanggal=$_SESSION['DariTanggal'];
-    $JumlahHari=$harilibur->IntervalDays($DariTanggal,$SampaiTanggal)+1;
+    $JumlahHari=$harilibur->IntervalDays($DariTanggal,$SampaiTanggal);
     $Alpa=0;
     $Hadir=0;
+    $Izin=0;
+    $Sakit=0;
+    $Cuti=0;
+    $DL=0;
+    $totalHari=0;
     while (strtotime($DariTanggal) <= strtotime($SampaiTanggal)) {
         $stmt = $harilibur->readByDate($DariTanggal);
         $numabsen = $stmt->rowCount();
         if($numabsen==0)
         {
+            $totalHari+=1;
             $absen->Nip=$Nip;
             $absen->TglAbsen=$DariTanggal;
             $stmtabsen = $absen->readOne();
@@ -86,9 +95,31 @@ while ($rowpegawai = $stmtPegawai->fetch(PDO::FETCH_ASSOC)){
                 $Hadir+=1;
             }else
             {
-                $Alpa+=1;
+                $stmtStatusAbsen = $statusabsen->readByDate($DariTanggal, $Nip);
+                $jumStatus = $stmtStatusAbsen->rowCount();
+                if($jumStatus==1)
+                {
+                    while ($rowStatusabsen = $stmtStatusAbsen->fetch(PDO::FETCH_ASSOC)){
+                        extract($rowStatusabsen);
+                        if($Jenis=="Izin")
+                        {
+                            $Izin+=1;
+                        }elseif($Jenis=="Cuti")
+                        {
+                            $Cuti+=1;
+                        }elseif($Jenis=="Sakit")
+                        {
+                            $Sakit+=1;
+                        }else
+                            {
+                                $DL+=1;
+                            }
+                    }
+                    
+                }else
+                    $Alpa+=1;
             }
-            $JumlahHari-=1;
+           
         }else
         {
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -104,10 +135,15 @@ while ($rowpegawai = $stmtPegawai->fetch(PDO::FETCH_ASSOC)){
         $DariTanggal = date ("Y-m-d", strtotime("+1 day", strtotime($DariTanggal)));
     }
     $Ratio=($Hadir/$JumlahHari)*100;
+    $item_Pegawai["Izin"]=$Izin;
+    $item_Pegawai["Sakit"]=$Sakit;
+    $item_Pegawai["Cuti"]=$Cuti;
+    $item_Pegawai["DL"]=$DL;
     $item_Pegawai["Alpa"]=$Alpa;
     $item_Pegawai["Hadir"]=$Hadir;
-    $item_Pegawai["JumlahHari"]=$JumlahHari+1;
+    $item_Pegawai["JumlahHari"]=$totalHari;
     $item_Pegawai["Ratio"]=$Ratio;
+    $item_Pegawai["TotalTidakHadir"]=$Izin+$Sakit+$Cuti+$DL+$Alpa;
     array_push($arr_item["records"],$item_Pegawai);
 }
 

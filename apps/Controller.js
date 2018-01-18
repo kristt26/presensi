@@ -654,6 +654,8 @@ angular.module("Ctrl", [])
                 alert(error.message);
             })
     }
+
+    
 })
 
 .controller("StatusAbsenController", function($scope, $http) {
@@ -693,6 +695,9 @@ angular.module("Ctrl", [])
 
     $scope.Selected = function(item) {
         $scope.DataSelected = item;
+        $scope.DataSelected.Pengajuan = new Date(item.Pengajuan);
+        $scope.DataSelected.TglMulai = new Date(item.TglMulai);
+        $scope.DataSelected.TglSelesai = new Date(item.TglSelesai);
         angular.forEach($scope.DatasPegawai, function(value, key) {
             if (value.Nip == item.Nip) {
                 $scope.SelectedItemPegawai = value;
@@ -724,6 +729,33 @@ angular.module("Ctrl", [])
 
         $scope.SelectedItemPegawai = {};
         $scope.SelectedJenis = {};
+    }
+
+    $scope.UpdateStatusAbsen = function() {
+        var Data = $scope.DataSelected;
+        var UrlStatusAbsen = "api/datas/updateStatusAbsen.php";
+        $http({
+                method: "post",
+                url: UrlStatusAbsen,
+                data: Data
+            })
+            .then(function(response) {
+                if (response.data.message == "Status Absen was updated") {
+                    angular.forEach($scope.DatasStatusAbsen, function(value, key) {
+                        if (value.Id == Data.Id) {
+                            value.Jenis = Data.Jenis;
+                            value.TglPengajuan = Data.TglPengajuan;
+                            value.TglMulai = Data.TglMulai;
+                            value.TglSelesai = Data.TglSelesai;
+                            value.Keterangan = Data.Keterangan;
+                            alert(response.data.message);
+                        }
+                    })
+                } else
+                    alert(response.data.message);
+            }, function(error) {
+                alert(error.message);
+            })
     }
 
     $scope.Delete=function(item){

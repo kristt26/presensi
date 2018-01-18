@@ -101,7 +101,9 @@ class StatusAbsen{
        $query = "UPDATE
                    " . $this->table_name . "
                SET
-                    TglMulai=:TglMulai, 
+                    Jenis=:Jenis, 
+                    TglPengajuan=:TglPengajuan,
+                    TglMulai=:TglMulai,
                     TglSelesai=:TglSelesai,
                     Keterangan=:Keterangan          
                WHERE
@@ -112,12 +114,16 @@ class StatusAbsen{
     
        // sanitize
        $this->Id=htmlspecialchars(strip_tags($this->Id));
+       $this->Jenis=htmlspecialchars(strip_tags($this->Jenis));
+       $this->TglPengajuan=htmlspecialchars(strip_tags($this->TglPengajuan));
        $this->TglMulai=htmlspecialchars(strip_tags($this->TglMulai));
        $this->TglSelesai=htmlspecialchars(strip_tags($this->TglSelesai));
        $this->Keterangan=htmlspecialchars(strip_tags($this->Keterangan));
     
        // bind new values
        $stmt->bindParam(":Id", $this->Id);
+       $stmt->bindParam(":Jenis", $this->Jenis);
+       $stmt->bindParam(":TglPengajuan", $this->TglPengajuan);
        $stmt->bindParam(":TglMulai", $this->TglMulai);
        $stmt->bindParam(":TglSelesai", $this->TglSelesai);
        $stmt->bindParam(":Keterangan", $this->Keterangan);
