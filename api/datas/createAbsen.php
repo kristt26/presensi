@@ -11,7 +11,7 @@ include_once '../../api/config/database.php';
  
 // instantiate product object
 include_once '../../api/objects/Absen.php';
-date_default_timezone_set('Asia/Seoul');
+date_default_timezone_set('Asia/Jayapura');
 
 $database = new Database();
 $db = $database->getConnection();
@@ -31,8 +31,17 @@ $absen->MacAddress=$data->MacAddress;
 $absen->TglAbsen= date('Y-m-d');
 $absen->JamDatang=date('H:i:s');
 $absen->JamPulang=date('H:i:s');
+$d=mktime(09, 00, 00, 8, 12, 2014);
 if($data->Keterangan=="Kosong")
-    $absen->Keterangan="Hadir";
+{
+    if($absen->JamDatang>=date("h:i:sa", $d))
+    {
+        $absen->Keterangan="Hadir";
+    }else
+    $absen->Keterangan="Terlambat";
+    
+}
+    
 else
     $absen->Keterangan=$data->Keterangan;
 

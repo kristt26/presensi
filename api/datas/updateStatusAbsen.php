@@ -9,6 +9,8 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // include database and object files
 include_once '../../api/config/database.php';
 include_once '../../api/objects/StatusAbsen.php';
+
+date_default_timezone_set("Asia/Jayapura"); 
  
 // get database connection
 $database = new Database();
@@ -27,24 +29,28 @@ $statusabsen->Keterangan = $data->Keterangan;
 $a = new DateTime($data->Pengajuan);
 $aa=str_replace('-', '/', $a->format('Y-m-d'));
 $aaa = date('Y-m-d',strtotime($aa . "+1 days"));
+$statusabsen->TglPengajuan=$aaa;
 $b = new DateTime($data->TglMulai);
 $bb=str_replace('-', '/', $b->format('Y-m-d'));
 $bbb = date('Y-m-d',strtotime($bb . "+1 days"));
+$statusabsen->TglMulai=$bbb;
 $c = new DateTime($data->TglSelesai);
 $cc=str_replace('-', '/', $c->format('Y-m-d'));
 $ccc = date('Y-m-d',strtotime($cc . "+1 days"));
-$statusabsen->TglPengajuan=$aaa;
-$statusabsen->TglMulai=$bbb;
 $statusabsen->TglSelesai=$ccc;
 
 // set product property values
+$datatgl=array(
+    "TglPengajuan"=>$statusabsen->TglPengajuan,
+    "TglMulai"=>$statusabsen->TglSelesai,
+    "TglPengajuan"=>$statusabsen->TglPengajuan,
+    "message"=>"Status Was Update"
+);
 
  
 // update the product
 if($statusabsen->update()){
-    echo '{';
-        echo '"message": "Status Absen was updated"';
-    echo '}';
+    echo json_encode($datatgl);
 }
  
 // if unable to update the product, tell the user

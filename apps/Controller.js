@@ -550,7 +550,7 @@ angular.module("Ctrl", [])
     $scope.DatasHariLibur = [];
     //$rootScope.Session = {};
     $scope.DataInputHariLibur = {};
-    $scope.DataSelected={};
+    $scope.DataSelected = {};
     $scope.Init = function() {
         //Auth
         var Urlauth = "api/datas/auth.php";
@@ -605,10 +605,10 @@ angular.module("Ctrl", [])
 
     $scope.Selected = function(item) {
         //$scope.DataSelected = item;
-        $scope.DataSelected.DariTgl=new Date(item.DariTgl);
-        $scope.DataSelected.SampaiTgl=new Date(item.SampaiTgl);
-        $scope.DataSelected.Keterangan=item.Keterangan;
-        $scope.DataSelected.IdHari=item.IdHari;
+        $scope.DataSelected.DariTgl = new Date(item.DariTgl);
+        $scope.DataSelected.SampaiTgl = new Date(item.SampaiTgl);
+        $scope.DataSelected.Keterangan = item.Keterangan;
+        $scope.DataSelected.IdHari = item.IdHari;
     }
 
     $scope.UpdateDataHariLibur = function() {
@@ -635,7 +635,7 @@ angular.module("Ctrl", [])
                 alert(error.message);
             })
     }
-    $scope.Delete=function(item){
+    $scope.Delete = function(item) {
         $scope.DataSelected = item;
         var Data = $scope.DataSelected;
         var UrlDeleteHariLibur = "api/datas/deleteHariLibur.php";
@@ -655,7 +655,7 @@ angular.module("Ctrl", [])
             })
     }
 
-    
+
 })
 
 .controller("StatusAbsenController", function($scope, $http) {
@@ -694,7 +694,7 @@ angular.module("Ctrl", [])
     }
 
     $scope.Selected = function(item) {
-        $scope.DataSelected = item;
+        $scope.DataSelected = angular.copy(item);
         $scope.DataSelected.Pengajuan = new Date(item.Pengajuan);
         $scope.DataSelected.TglMulai = new Date(item.TglMulai);
         $scope.DataSelected.TglSelesai = new Date(item.TglSelesai);
@@ -732,6 +732,12 @@ angular.module("Ctrl", [])
     }
 
     $scope.UpdateStatusAbsen = function() {
+        var newdateMulai = $scope.DataSelected.TglMulai.getFullYear() + '-' + ($scope.DataSelected.TglMulai.getMonth() + 1) + '-' + ($scope.DataSelected.TglMulai.getDate() - 1);
+        $scope.DataSelected.TglMulai = newdateMulai;
+        var newdateSelesai = $scope.DataSelected.TglSelesai.getFullYear() + '-' + ($scope.DataSelected.TglSelesai.getMonth() + 1) + '-' + ($scope.DataSelected.TglSelesai.getDate() - 1);
+        $scope.DataSelected.TglSelesai = newdateSelesai;
+        var newdatePengajuan = $scope.DataSelected.Pengajuan.getFullYear() + '-' + ($scope.DataSelected.Pengajuan.getMonth() + 1) + '-' + ($scope.DataSelected.Pengajuan.getDate() - 1);
+        $scope.DataSelected.Pengajuan = newdatePengajuan;
         var Data = $scope.DataSelected;
         var UrlStatusAbsen = "api/datas/updateStatusAbsen.php";
         $http({
@@ -740,15 +746,16 @@ angular.module("Ctrl", [])
                 data: Data
             })
             .then(function(response) {
-                if (response.data.message == "Status Absen was updated") {
+                if (response.data.message == "Status Was Update") {
                     angular.forEach($scope.DatasStatusAbsen, function(value, key) {
                         if (value.Id == Data.Id) {
                             value.Jenis = Data.Jenis;
-                            value.TglPengajuan = Data.TglPengajuan;
-                            value.TglMulai = Data.TglMulai;
-                            value.TglSelesai = Data.TglSelesai;
+                            value.TglPengajuan = response.data.TglPengajuan;
+                            value.TglMulai = response.data.TglMulai;
+                            value.TglSelesai = response.data.TglSelesai;
                             value.Keterangan = Data.Keterangan;
                             alert(response.data.message);
+                            window.location.href = 'index.html#!/StatusAbsen';
                         }
                     })
                 } else
@@ -758,7 +765,7 @@ angular.module("Ctrl", [])
             })
     }
 
-    $scope.Delete=function(item){
+    $scope.Delete = function(item) {
         $scope.DataSelected = item;
         var Data = $scope.DataSelected;
         var UrlDeleteStatusAbsen = "api/datas/deleteStatusAbsen.php";

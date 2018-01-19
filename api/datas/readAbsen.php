@@ -123,7 +123,7 @@ if($numBidang>0)
                     {
                         while ($rowabsen = $stmtabsen->fetch(PDO::FETCH_ASSOC)){
                             extract($rowabsen);
-                           
+                            
                             $item_tanggal=array(
                                 "Tanggal"=>$DariTanggal,
                                 "JamDatang"=>$JamDatang,
