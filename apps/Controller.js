@@ -42,6 +42,8 @@ angular.module("Ctrl", [])
     $scope.DatasBidang = [];
     $scope.SelectedItemBidang = {};
     $scope.SelectedItemPegawai = {};
+    $scope.SelectedItemJabatan = {};
+    $scope.Jabatan = [{ 'jab': 'Kepala Bagian' }, { 'jab': 'Kasubbid Keberatan dan Pengurangan' }, { 'jab': 'Kasubbid Perhitungan dan Penetapan' }, { 'jab': 'Kasubbid Penagihan' }, { 'jab': 'Kabid Penagihan' }, { 'jab': 'Staf' }]
     $scope.Pangkat = [
         { 'gol': 'I/a' },
         { 'gol': 'I/b' },
@@ -111,6 +113,7 @@ angular.module("Ctrl", [])
         $scope.DataInputPegawai.IdBidang = $scope.SelectedItemBidang.IdBidang;
         $scope.DataInputPegawai.NamaBidang = $scope.SelectedItemBidang.NamaBidang;
         $scope.DataInputPegawai.Pangkat = $scope.SelectedPangkat.gol;
+        $scope.DataInputPegawai.Jabatan = $scope.SelectedItemJabatan.jab;
         var Data = $scope.DataInputPegawai;
         var InsertDataPegawai = "api/datas/createPegawai.php";
 
