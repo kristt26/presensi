@@ -41,6 +41,12 @@ $bbb = date('Y-m-d',strtotime($bb . "+1 days"));
 $date1 = $aaa;
 $date2 = $bbb;
 
+$d= strtotime("15 April 2014 09:00:00");
+$jamdatang = date('H:i:s', $d);
+
+$e= strtotime("15 April 2014 14:00:00");
+$jampulang = date('H:i:s', $e);
+
 $absen->DariTanggal=$date1;
 $absen->SampaiTanggal=$date2;
 
@@ -123,12 +129,16 @@ if($numBidang>0)
                     {
                         while ($rowabsen = $stmtabsen->fetch(PDO::FETCH_ASSOC)){
                             extract($rowabsen);
+                            if($stmtabsen->JamDatang<=$jamdatang && $stmtabsen->JamPulang>=$jampulang)
+                                $statushasir="Hadir";
+                            else
+                                $statushasir="Tidak Tepat Waktu";
                             
                             $item_tanggal=array(
                                 "Tanggal"=>$DariTanggal,
                                 "JamDatang"=>$JamDatang,
                                 "JamPulang"=>$JamPulang,
-                                "Keterangan"=>$Keterangan
+                                "Keterangan"=>$statusabsen
                             );
                             array_push($pegawai_item["Tanggal"], $item_tanggal);
                         }
