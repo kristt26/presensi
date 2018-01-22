@@ -129,8 +129,6 @@ if($numBidang>0)
                     {
                         while ($rowabsen = $stmtabsen->fetch(PDO::FETCH_ASSOC)){
                             extract($rowabsen);
-                            //$datajamdatang = "15 April 2014 ".$stmtabsen->JamDatang;
-                            //$datajampulang = "15 April 2014 ".$stmtabsen->JamPulang;
                             if($absen<=$jamdatang && $absen>=$jampulang)
                                 $statushasir="Hadir";
                             else
@@ -140,7 +138,7 @@ if($numBidang>0)
                                 "Tanggal"=>$DariTanggal,
                                 "JamDatang"=>$JamDatang,
                                 "JamPulang"=>$JamPulang,
-                                "Keterangan"=>$statusabsen
+                                "Keterangan"=>$statushasir
                             );
                             array_push($pegawai_item["Tanggal"], $item_tanggal);
                         }
