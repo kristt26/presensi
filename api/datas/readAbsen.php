@@ -129,7 +129,19 @@ if($numBidang>0)
                     {
                         while ($rowabsen = $stmtabsen->fetch(PDO::FETCH_ASSOC)){
                             extract($rowabsen);
-                            if($absen->JamDatang<=$jamdatang && $absen->JamPulang>=$jampulang)
+                            $datajampulang = "15 April 2014 ".$JamPulang;
+
+                            $dd= strtotime($datajampulang);
+                            $DataJamPulang = date('H:i:s', $dd);
+
+                            $datajamdatang = "15 April 2014 ".$JamDatang;
+
+                            $ee= strtotime($datajamdatang);
+                            $DataJamDatang = date('H:i:s', $ee);
+
+                            $statushasir="";
+
+                            if($DataJamDatang<=$jamdatang && $DataJamPulang>=$jampulang)
                                 $statushasir="Hadir";
                             else
                                 $statushasir="Tidak Tepat Waktu";
