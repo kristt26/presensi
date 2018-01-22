@@ -129,7 +129,7 @@ if($numBidang>0)
                     {
                         while ($rowabsen = $stmtabsen->fetch(PDO::FETCH_ASSOC)){
                             extract($rowabsen);
-                            if($absen->JamDatang && $absen->JamPulang>=$jampulang)
+                            if($absen->JamDatang<=$jamdatang && $absen->JamPulang>=$jampulang)
                                 $statushasir="Hadir";
                             else
                                 $statushasir="Tidak Tepat Waktu";
