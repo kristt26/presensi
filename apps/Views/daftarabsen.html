@@ -52,7 +52,8 @@
                                     <th>Tanggal Absen</th>
                                     <th>Jam Datang</th>
                                     <th>Jam Pulang</th>
-                                    <th>Keterangan</th>
+                                    <th>Keterangan Hadir</th>
+                                    <th>Menit Keterlambatan</th>
 
                                 </tr>
                             </thead>
@@ -62,19 +63,22 @@
                                     <td ng-show="itemAbsen.Keterangan!='Hadir'">{{$index+1}}</td>
                                     <td ng-show="itemAbsen.Keterangan!='Hadir'">{{itemAbsen.Tanggal}}</td>
                                     <td ng-show="itemAbsen.Keterangan=='Hadir'">{{itemAbsen.Tanggal}}</td>
-                                    <td ng-show="itemAbsen.Keterangan=='Hadir'" style="background-color:rgba(0, 255, 0, 0.925);">{{itemAbsen.JamDatang}}</td>
-                                    <td ng-show="itemAbsen.Keterangan=='Hadir'" style="background-color:rgba(0, 255, 0, 0.925);">{{itemAbsen.JamPulang}}</td>
-                                    <td ng-show="itemAbsen.Keterangan=='Izin'" colspan="3" style="background-color:rgba(255, 0, 64, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
-                                    <td ng-show="itemAbsen.Keterangan=='Alpha'" colspan="3" style="background-color:rgba(255, 153, 0, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
-                                    <td ng-show="itemAbsen.Keterangan=='Cuti'" colspan="3" style="background-color:rgba(0, 255, 242, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
-                                    <td ng-show="itemAbsen.Keterangan=='Hari Sabtu'" colspan="3" style="background-color:red;">{{itemAbsen.Keterangan}}</td>
-                                    <td ng-show="itemAbsen.Keterangan=='Sakit'" colspan="3" style="background-color:rgba(238, 255, 0, 0.925);">{{itemAbsen.Keterangan}}</td>
-                                    <td ng-show="itemAbsen.Keterangan=='DL'" colspan="3" style="background-color:red;text-align: center!important;">{{itemAbsen.Keterangan}}</td>
-                                    <td ng-show="itemAbsen.Keterangan=='Hadir'" style="background-color:rgba(0, 255, 0, 0.925);">{{itemAbsen.Keterangan}}</td>
-
-                                    <td ng-show="itemAbsen.Keterangan=='Hari Minggu'" colspan="3" style="background-color:red;text-align: center!important;">{{itemAbsen.Keterangan}}</td>
-                                    <td ng-show="itemAbsen.Keterangan!='Hadir' && itemAbsen.Keterangan!='Hari Minggu' && itemAbsen.Keterangan!='DL' && itemAbsen.Keterangan!='Sakit' && itemAbsen.Keterangan!='Hari Sabtu' && itemAbsen.Keterangan!='Cuti' && itemAbsen.Keterangan!='Alpha' && itemAbsen.Keterangan!='Izin'"
-                                        colspan="3" style="background-color:red;text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Hadir'">{{itemAbsen.JamDatang}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Tidak Tepat Waktu'">{{itemAbsen.JamDatang}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Hadir'">{{itemAbsen.JamPulang}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Tidak Tepat Waktu'">{{itemAbsen.JamPulang}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Izin'" colspan="4" style="background-color:rgba(101, 198, 255, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Alpha'" colspan="4" style="background-color:rgba(101, 198, 255, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Cuti'" colspan="4" style="background-color:rgba(101, 198, 255, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Hari Sabtu'" colspan="4" style="background-color:rgba(101, 198, 255, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Sakit'" colspan="4" style="background-color:rgba(101, 198, 255, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='DL'" colspan="4" style="background-color:rgba(101, 198, 255, 0.925);text-align: center!important;;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Hadir'" colspan="2" style="text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Hari Minggu'" colspan="3" style="background-color:rgba(101, 198, 255, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Tidak Tepat Waktu'">{{itemAbsen.Keterangan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan=='Tidak Tepat Waktu'" style="background-color:rgba(238, 235, 51, 0.925);">{{itemAbsen.Keterlambatan}}</td>
+                                    <td ng-show="itemAbsen.Keterangan!='Tidak Tepat Waktu' && itemAbsen.Keterangan!='Hadir' && itemAbsen.Keterangan!='Hari Minggu' && itemAbsen.Keterangan!='DL' && itemAbsen.Keterangan!='Sakit' && itemAbsen.Keterangan!='Hari Sabtu' && itemAbsen.Keterangan!='Cuti' && itemAbsen.Keterangan!='Alpha' && itemAbsen.Keterangan!='Izin'"
+                                        colspan="4" style="background-color:rgba(101, 198, 255, 0.925);text-align: center!important;">{{itemAbsen.Keterangan}}</td>
 
                                 </tr>
                             </tbody>

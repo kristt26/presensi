@@ -37,6 +37,12 @@ $b = new DateTime($data->SampaiTanggal);
 $bb=str_replace('-', '/', $b->format('Y-m-d'));
 $bbb = date('Y-m-d',strtotime($bb . "+1 days"));
 
+$d= strtotime("15 April 2014 09:00:00");
+$jamdatang = date('H:i:s', $d);
+
+$e= strtotime("15 April 2014 14:00:00");
+$jampulang = date('H:i:s', $e);
+
 $pegawai->Nip=$_SESSION['Nip'];
 $stmtPegawai = $pegawai->readOne();
 
@@ -86,11 +92,43 @@ while ($rowpegawai = $stmtPegawai->fetch(PDO::FETCH_ASSOC)){
                 while ($rowabsen = $stmtabsen->fetch(PDO::FETCH_ASSOC)){
                     extract($rowabsen);
                    
+                    $datajampulang = "15 April 2014 ".$JamPulang;
+
+                    $dd= strtotime($datajampulang);
+                    $DataJamPulang = date('H:i:s', $dd);
+
+                    $datajamdatang = "15 April 2014 ".$JamDatang;
+                            
+
+                    $ee= strtotime($datajamdatang);
+                    $DataJamDatang = date('H:i:s', $ee);
+
+                    $statushasir="";
+                    $Jamterlambat="";
+
+                    if($DataJamDatang<=$jamdatang && $DataJamPulang>=$jampulang)
+                        $statushasir="Hadir";
+                    else
+                    {
+                        if($DataJamDatang>$jamdatang)
+                        {
+                        $jamdataAwal = strtotime($DariTanggal.$DataJamDatang);
+                        $jamdataAkhir=strtotime($DariTanggal.$jamdatang);
+                        $JamTerlambat=$jamdataAwal-$jamdataAkhir;
+                        $jumlahjam= floor($JamTerlambat/3600);
+                        $jumlahmenit=floor(($JamTerlambat-$jumlahjam*(60*60))/60);
+                        $Jamterlambat = $jumlahjam." Jam ". $jumlahmenit . " Menit";
+                        }
+                        $statushasir="Tidak Tepat Waktu";
+                    }
+                                
+                            
                     $item_tanggal=array(
                         "Tanggal"=>$DariTanggal,
                         "JamDatang"=>$JamDatang,
                         "JamPulang"=>$JamPulang,
-                        "Keterangan"=>$Keterangan
+                        "Keterangan"=>$statushasir,
+                        "Keterlambatan"=>$Jamterlambat
                     );
                     array_push($pegawai_item["Tanggal"], $item_tanggal);
                 }
@@ -160,8 +198,5 @@ while ($rowpegawai = $stmtPegawai->fetch(PDO::FETCH_ASSOC)){
 
 }
 echo json_encode($arr_pegawai);
-
-
-
 
 ?>

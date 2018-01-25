@@ -129,28 +129,44 @@ if($numBidang>0)
                     {
                         while ($rowabsen = $stmtabsen->fetch(PDO::FETCH_ASSOC)){
                             extract($rowabsen);
+
                             $datajampulang = "15 April 2014 ".$JamPulang;
 
                             $dd= strtotime($datajampulang);
                             $DataJamPulang = date('H:i:s', $dd);
 
                             $datajamdatang = "15 April 2014 ".$JamDatang;
+                            
 
                             $ee= strtotime($datajamdatang);
                             $DataJamDatang = date('H:i:s', $ee);
 
                             $statushasir="";
+                            $Jamterlambat="";
 
                             if($DataJamDatang<=$jamdatang && $DataJamPulang>=$jampulang)
                                 $statushasir="Hadir";
                             else
+                            {
+                                if($DataJamDatang>$jamdatang)
+                                {
+                                    $jamdataAwal = strtotime($DariTanggal.$DataJamDatang);
+                                    $jamdataAkhir=strtotime($DariTanggal.$jamdatang);
+                                    $JamTerlambat=$jamdataAwal-$jamdataAkhir;
+                                    $jumlahjam= floor($JamTerlambat/3600);
+                                    $jumlahmenit=floor(($JamTerlambat-$jumlahjam*(60*60))/60);
+                                    $Jamterlambat = $jumlahjam." Jam ". $jumlahmenit . " Menit";
+                                }
                                 $statushasir="Tidak Tepat Waktu";
+                            }
+                                
                             
                             $item_tanggal=array(
                                 "Tanggal"=>$DariTanggal,
                                 "JamDatang"=>$JamDatang,
                                 "JamPulang"=>$JamPulang,
-                                "Keterangan"=>$statushasir
+                                "Keterangan"=>$statushasir,
+                                "Keterlambatan"=>$Jamterlambat
                             );
                             array_push($pegawai_item["Tanggal"], $item_tanggal);
                         }
